@@ -1,0 +1,104 @@
+@use 'sass:map';
+
+$layout-base: () !default;
+$layout-base: map.merge(
+  (
+    'padding': 20px,
+    'margin': 20px,
+    'border-color': #dcdfe6,
+    'border-radius': 2.5px,
+    'z-index': 1999,
+    'box-shadow': 0 1px 4px rgba(0, 21, 41, 0.08),
+    'transition':
+      'all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), border 0s, color 0.1s, font-size 0s'
+  ),
+  $layout-base
+);
+
+$layout-color: () !default;
+$layout-color: map.merge(
+  (
+    'white': #fff,
+    'blue': #1890ff,
+    'gray': rgba(0, 0, 0, 0.65),
+    'black': #515a6e
+  ),
+  $layout-color
+);
+$color-white: map.get($layout-color, 'white') !default;
+$color-blue: map.get($layout-color, 'blue') !default;
+$color-gray: map.get($layout-color, 'gray') !default;
+$color-black: map.get($layout-color, 'black') !default;
+
+$layout-logo: () !default;
+$layout-logo: map.merge(
+  (
+    'title-color': #fff,
+    'height': 60px
+  ),
+  $layout-logo
+);
+
+$layout-header: () !default;
+$layout-header: map.merge(
+  (
+    'height': 60px
+  ),
+  $layout-header
+);
+
+$layout-topbar: () !default;
+$layout-topbar: map.merge(
+  (
+    'height': 60px
+  ),
+  $layout-topbar
+);
+
+$layout-navbar: () !default;
+$layout-navbar: map.merge(
+  (
+    'height': 60px
+  ),
+  $layout-navbar
+);
+
+$layout-tabbar: () !default;
+$layout-tabbar: map.merge(
+  (
+    'height': 50px,
+    'tab-height': 34px
+  ),
+  $layout-tabbar
+);
+
+$layout-sidebar: () !default;
+$layout-sidebar: map.merge(
+  (
+    'folded-width': 64px,
+    'unfolded-width': 266px
+  ),
+  $layout-sidebar
+);
+
+$layout-app-main: () !default;
+$layout-app-main: map.merge(
+  (
+    'unfolded-width': calc(100% - #{map.get($layout-sidebar, 'folded-width')}),
+    // height: calc(100vh - #{map.get($layout-navbar, 'height')} - #{map.get($layout-tabbar, 'height')} - #{map.get($layout-base, 'padding') * 2} - 60px)
+    'height': calc(100vh - #{map.get($layout-navbar, 'height')} - 20px - 60px)
+  ),
+  $layout-app-main
+);
+
+$layout-menu: () !default;
+$layout-menu: map.merge(
+  (
+    'item-height': 50px,
+    'color': hsla(0, 0%, 100%, 0.95),
+    'color-active': hsla(0, 0%, 100%, 0.95),
+    'bg-color': #282c34,
+    'bg-color-active': #1890ff
+  ),
+  $layout-menu
+);

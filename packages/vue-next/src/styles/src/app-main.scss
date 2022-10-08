@@ -1,0 +1,6 @@
+@use 'mixins/mixins' as *;
+
+@include b(app-main) {
+  min-height: getCssVar('app-main', 'height');
+  padding-bottom: 60px;
+}

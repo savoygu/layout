@@ -1,0 +1,94 @@
+// forward mixins
+@forward 'config';
+@forward 'function';
+
+@use 'config' as *;
+@use 'function' as *;
+
+// CSS var
+@mixin setCssVar($name, $variables) {
+  @each $attr, $val in $variables {
+    @if $attr == 'default' {
+      #{getCssVarName($name)}: #{$val};
+    } @else {
+      #{getCssVarName($name, $attr)}: #{$val};
+    }
+  }
+}
+
+// @include setCssVarValue(('color', 'white'), red)
+// --slv-color-white: red;
+@mixin setCssVarValue($name, $value) {
+  #{joinVarName($name)}: #{$value};
+}
+
+// BEM
+@mixin b($block) {
+  $B: $namespace + '-' + $block !global;
+
+  .#{$B} {
+    @content;
+  }
+}
+
+@mixin e($element) {
+  $E: $element !global;
+  $selector: &;
+  $currentSelector: '';
+  @each $unit in $element {
+    $currentSelector: #{$currentSelector +
+      '.' +
+      $B +
+      $element-separator +
+      $unit +
+      ','};
+  }
+
+  @if hitAllSpecialNestRule($selector) {
+    @at-root {
+      #{$selector} {
+        #{$currentSelector} {
+          @content;
+        }
+      }
+    }
+  } @else {
+    @at-root {
+      #{$currentSelector} {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin m($modifier) {
+  $selector: &;
+  $currentSelector: '';
+  @each $unit in $modifier {
+    $currentSelector: #{$currentSelector +
+      $selector +
+      $modifier-separator +
+      $unit +
+      ','};
+  }
+
+  @at-root {
+    #{$currentSelector} {
+      @content;
+    }
+  }
+}
+
+@mixin when($state) {
+  @at-root {
+    &.#{$state-prefix + $state} {
+      @content;
+    }
+  }
+}
+
+@mixin pseudo($pseudo) {
+  @at-root #{&}#{':#{$pseudo}'} {
+    @content;
+  }
+}

@@ -1,0 +1,79 @@
+@use 'mixins/mixins' as *;
+
+@mixin active {
+  &:hover,
+  &.is-active {
+    color: getCssVar('color', 'white');
+    background-color: getCssVar('menu', 'bg-color-active') !important;
+  }
+}
+
+@include b(sidebar) {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: calc(getCssVar('base', 'z-index') + 1);
+  width: getCssVar('sidebar', 'unfolded-width');
+  height: 100vh;
+  overflow: hidden;
+  background-color: getCssVar('menu', 'bg-color');
+  box-shadow: getCssVar('base', 'box-shadow');
+  transition: getCssVar('base', 'transition');
+
+  @include when(folded) {
+    width: getCssVar('sidebar', 'folded-width');
+    border-right: 0;
+
+    .#{$ep-namespace}-menu--collapse.#{$ep-namespace}-menu {
+      > .#{$ep-namespace}-menu-item,
+      > .#{$ep-namespace}-sub-menu {
+        text-align: center;
+
+        .#{$ep-namespace}-tag {
+          display: none;
+        }
+      }
+    }
+
+    .#{$ep-namespace}-menu-item,
+    .#{$ep-namespace}-sub-menu {
+      text-align: left;
+    }
+
+    .#{$ep-namespace}-menu--collapse {
+      border-right: 0;
+
+      .#{$ep-namespace}-sub-menu__icon-arrow {
+        right: 10px;
+        margin-top: -3px;
+      }
+    }
+  }
+
+  .#{$ep-namespace}-scrollbar__wrap {
+    overflow-x: hidden;
+  }
+
+  .#{$ep-namespace}-menu {
+    border: 0;
+  }
+
+  .#{$ep-namespace}-menu-item,
+  .#{$ep-namespace}-sub-menu__title {
+    height: getCssVar('menu', 'item-height');
+    overflow: hidden;
+    line-height: getCssVar('menu', 'item-height');
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+
+    i {
+      color: inherit;
+    }
+  }
+
+  .#{$ep-namespace}-menu-item {
+    @include active;
+  }
+}

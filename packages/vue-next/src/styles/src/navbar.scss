@@ -1,0 +1,53 @@
+@use 'mixins/mixins' as *;
+
+@include b(navbar) {
+  position: relative;
+  height: getCssVar('navbar', 'height');
+  padding-right: getCssVar('base', 'padding');
+  padding-left: getCssVar('base', 'padding');
+  overflow: hidden;
+  user-select: none;
+  background: getCssVar('color', 'white');
+  box-shadow: getCssVar('base', 'box-shadow');
+
+  @include e(left-panel) {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    height: getCssVar('navbar', 'height');
+
+    .#{$namespace}-fold {
+      margin-right: getCssVar('base', 'margin');
+    }
+
+    .#{$ep-namespace}-tabs {
+      width: 100%;
+      margin-left: getCssVar('base', 'margin');
+
+      .#{$ep-namespace}-tabs__header {
+        margin: 0;
+
+        > .#{$ep-namespace}-tabs__nav-wrap {
+          display: flex;
+          align-items: center;
+
+          .#{$ep-namespace}-icon-arrow-left,
+          .#{$ep-namespace}-icon-arrow-right {
+            font-weight: 600;
+            color: getCssVar('color', 'gray');
+          }
+        }
+      }
+
+      .#{$ep-namespace}-tabs__item {
+        i {
+          margin-right: 3px;
+        }
+      }
+    }
+
+    .#{$ep-namespace}-tabs__nav-wrap::after {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+@use 'mixins/mixins' as *;
+
+@include b(the-menu) {
+  @include e(scrollbar) {
+    height: 60vh !important;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  }
+}

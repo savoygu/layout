@@ -1,0 +1,18 @@
+@use 'mixins/mixins' as *;
+
+@include b(menu-item) {
+  .#{$ep-namespace}-tag {
+    position: absolute;
+    right: 20px;
+    height: 16px;
+    padding-right: 4px;
+    padding-left: 4px;
+    line-height: 16px;
+    border: 0;
+  }
+
+  @include e(dot) {
+    position: absolute !important;
+    right: 20px;
+  }
+}

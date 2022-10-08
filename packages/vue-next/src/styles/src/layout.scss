@@ -1,0 +1,56 @@
+@use 'mixins/mixins' as *;
+
+@include b(layout) {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+[class*='#{$namespace}-layout--'] {
+  @include when(fixed) {
+    padding-top: calc(
+      getCssVar('navbar', 'height') + getCssVar('tabbar', 'height')
+    );
+
+    @include when(no-tabbar) {
+      padding-top: getCssVar('tabbar', 'height');
+    }
+  }
+}
+
+@include b(layout-top) {
+  transition: getCssVar('base', 'transition');
+  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+
+  @include when(fixed-header) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: calc(getCssVar('base', 'z-index') - 1);
+    width: 100%;
+  }
+}
+
+@include b(layout-main) {
+  position: relative;
+  width: auto;
+  min-height: 100%;
+  margin-left: getCssVar('sidebar', 'unfolded-width');
+  transition: getCssVar('base', 'transition');
+
+  @include when(folded) {
+    margin-left: getCssVar('sidebar', 'folded-width');
+
+    .#{$namespace}-layout-top {
+      @include when(fixed-header) {
+        width: getCssVar('app-main', 'unfolded-width');
+      }
+    }
+  }
+
+  &:not(.is-folded) {
+    .is-fixed-header {
+      width: calc(100% - getCssVar('sidebar', 'unfolded-width'));
+    }
+  }
+}

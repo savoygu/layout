@@ -19,13 +19,17 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "element-plus": "^2.2.17",
     "pinia": "^2.0.21",
+    "qs": "^6.11.0",
+    "remixicon": "^2.5.0",
     "vue": "^3.2.38",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/node": "^16.11.56",
+    "@types/qs": "^6.9.7",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vitejs/plugin-vue-jsx": "^2.0.1",
     "@vue/eslint-config-typescript": "^11.0.0",
@@ -33,6 +37,7 @@
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
     "npm-run-all": "^4.1.5",
+    "rollup-plugin-node-polyfills": "^0.2.1",
     "typescript": "~4.7.4",
     "vite": "^3.0.9",
     "vite-plugin-dts": "^1.5.0",

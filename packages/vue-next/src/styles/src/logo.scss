@@ -1,0 +1,66 @@
+@use 'mixins/mixins' as *;
+
+@mixin container {
+  position: relative;
+  height: getCssVar('topbar', 'height');
+  overflow: hidden;
+  line-height: getCssVar('topbar', 'height');
+  background: transparent;
+}
+
+@mixin logo {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  color: getCssVar('logo', 'title-color');
+  vertical-align: middle;
+}
+
+@mixin title {
+  display: inline-block;
+  margin-left: 5px;
+  overflow: hidden;
+  font-size: 20px;
+  line-height: 55px;
+  color: getCssVar('logo', 'title-color');
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+@include b(logo) {
+  @include m(horizontal) {
+    @include container;
+
+    .#{$namespace}-logo__pic {
+      svg,
+      img {
+        @include logo;
+      }
+    }
+
+    .#{$namespace}-logo__title {
+      @include title;
+    }
+  }
+
+  @include m((horizontal, comprehensive, float)) {
+    @include container;
+
+    height: getCssVar('logo', 'height');
+    line-height: getCssVar('logo', 'height');
+    text-align: center;
+
+    .#{$namespace}-logo__pic {
+      svg,
+      img {
+        @include logo;
+      }
+    }
+
+    .#{$namespace}-logo__title {
+      @include title;
+      max-width: calc(getCssVar('sidebar', 'unfolded-width') - 60);
+    }
+  }
+}

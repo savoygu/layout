@@ -1,0 +1,15 @@
+@use 'mixins/mixins' as *;
+
+@include b(horizontal) {
+  .#{$namespace}-layout-top {
+    .is-horizontal {
+      background-color: getCssVar('color', 'white');
+      box-shadow: getCssVar('base', 'box-shadow');
+    }
+  }
+
+  .#{$namespace}-layout-main {
+    width: 92% !important;
+    margin: auto;
+  }
+}

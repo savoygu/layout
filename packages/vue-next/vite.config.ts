@@ -30,7 +30,8 @@ export default defineConfig({
   plugins: [vue(), vueJsx(), dts()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      'node:path': 'rollup-plugin-node-polyfills/polyfills/path'
     }
   }
 })

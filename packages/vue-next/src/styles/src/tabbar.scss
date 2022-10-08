@@ -1,0 +1,198 @@
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
+
+@include b(tabbar) {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  min-height: getCssVar('tabbar', 'height');
+  padding-right: getCssVar('base', 'padding');
+  padding-left: getCssVar('base', 'padding');
+  user-select: none;
+  background: getCssVar('color', 'white');
+  border-top: 1px solid #f6f6f6;
+
+  @include e(list) {
+    width: calc(100% - 40px);
+
+    @include m(card) {
+      height: getCssVar('tabbar', 'tab-height');
+
+      .#{$ep-namespace}-tabs__nav-next,
+      .#{$ep-namespace}-tabs__nav-prev {
+        height: getCssVar('tabbar', 'tab-height');
+        line-height: getCssVar('tabbar', 'tab-height');
+      }
+
+      .#{$ep-namespace}-tabs__header {
+        border-bottom: 0;
+
+        .#{$ep-namespace}-tabs__nav {
+          border: 0;
+        }
+
+        .#{$ep-namespace}-tabs__item {
+          box-sizing: border-box;
+          height: getCssVar('tabbar', 'tab-height');
+          margin-right: 5px;
+          line-height: getCssVar('tabbar', 'tab-height');
+          border: 1px solid getCssVar('base', 'border-color');
+          border-radius: getCssVar('base', 'border-radius');
+          transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+
+          &.is-active {
+            color: getCssVar('color', 'blue');
+            background: mix($color-white, $color-blue, 90%);
+            border: 1px solid getCssVar('color', 'blue');
+            outline: none;
+          }
+
+          &:hover {
+            border: 1px solid getCssVar('color', 'blue');
+          }
+        }
+      }
+    }
+
+    @include m(smart) {
+      height: getCssVar('tabbar', 'tab-height');
+
+      .#{$ep-namespace}-tabs__nav-next,
+      .#{$ep-namespace}-tabs__nav-prev {
+        height: getCssVar('tabbar', 'tab-height');
+        line-height: getCssVar('tabbar', 'tab-height');
+      }
+
+      .#{$ep-namespace}-tabs__header {
+        border-bottom: 0;
+
+        .#{$ep-namespace}-tabs__nav {
+          border: 0;
+        }
+
+        .#{$ep-namespace}-tabs__item {
+          height: getCssVar('tabbar', 'tab-height');
+          margin-right: 5px;
+          line-height: getCssVar('tabbar', 'tab-height');
+          border: 0;
+          outline: none;
+          transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+
+          &.is-active {
+            background: mix($color-white, $color-blue, 90%);
+            outline: none;
+
+            &:after {
+              width: 100%;
+              transition: getCssVar('base', 'transition');
+            }
+          }
+
+          &:after {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            content: '';
+            background-color: getCssVar('color', 'blue');
+            transition: getCssVar('base', 'transition');
+          }
+
+          &:hover {
+            background: mix($color-white, $color-blue, 90%);
+
+            &:after {
+              width: 100%;
+              transition: getCssVar('base', 'transition');
+            }
+          }
+        }
+      }
+    }
+
+    @include m(smooth) {
+      height: calc(getCssVar('tabbar', 'tab-height') + 4);
+
+      .#{$ep-namespace}-tabs__nav-next,
+      .#{$ep-namespace}-tabs__nav-prev {
+        height: calc(getCssVar('tabbar', 'tab-height') + 4);
+        line-height: calc(getCssVar('tabbar', 'tab-height') + 4);
+      }
+
+      .#{$ep-namespace}-tabs__header {
+        border-bottom: 0;
+
+        .#{$ep-namespace}-tabs__nav {
+          border: 0;
+        }
+
+        .#{$ep-namespace}-tabs__item {
+          height: calc(getCssVar('tabbar', 'tab-height') + 4);
+          padding: 0 30px 0 30px;
+          margin-top: #{(
+              getCssVar('tabbar', 'height') - getCssVar('tabbar', 'tab-height') -
+                4.1
+            ) / 2};
+          margin-right: -18px;
+          line-height: calc(getCssVar('tabbar', 'tab-height') + 4);
+          text-align: center;
+          border: 0;
+          outline: none;
+          transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+
+          &.is-active {
+            padding: 0 30px 0 30px;
+            color: getCssVar('color', 'blue');
+            background: mix($color-white, $color-blue, 90%);
+            outline: none;
+            mask: url('../assets/images/tab.png');
+            mask-size: 100% 100%;
+
+            &:hover {
+              padding: 0 30px 0 30px;
+              color: getCssVar('color', 'blue');
+              background: mix($color-white, $color-blue, 90%);
+              mask: url('../assets/images/tab.png');
+              mask-size: 100% 100%;
+            }
+          }
+
+          &:hover {
+            padding: 0 30px 0 30px;
+            color: getCssVar('color', 'black');
+            background: #dee1e6;
+            mask: url('../assets/images/tab.png');
+            mask-size: 100% 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include e(label) {
+    display: inline-block;
+  }
+
+  @include e(contextmenu) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+
+  @include e(more) {
+    display: inline-block;
+    color: #9a9a9a;
+    cursor: pointer;
+    transition: transform 0.3s ease-out;
+
+    &-active {
+      color: getCssVar('color', 'blue');
+      transform: rotate(90deg);
+    }
+  }
+}

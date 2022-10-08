@@ -1,0 +1,44 @@
+@use 'mixins/mixins' as *;
+
+@include b(float) {
+  .#{$namespace}-layout-main {
+    margin-left: getCssVar('sidebar', 'folded-width');
+
+    .is-fixed-header {
+      left: getCssVar('sidebar', 'folded-width');
+      width: calc(100% - getCssVar('sidebar', 'folded-width'));
+    }
+  }
+
+  .#{$ep-namespace}-menu {
+    &--vertical {
+      .#{$ep-namespace}-menu--popup-right-start {
+        width: 335px !important;
+
+        .#{$ep-namespace}-sub-menu__title,
+        .#{$ep-namespace}-menu-item {
+          float: left;
+          width: 160px;
+          min-width: 160px;
+          margin: 0 0 5px 5px;
+          border-radius: getCssVar('base', 'border-radius');
+        }
+      }
+    }
+    &.#{$ep-namespace}-menu--collapse {
+      li {
+        &.#{$ep-namespace}-sub-menu {
+          &.is-active {
+            .#{$ep-namespace}-sub-menu__title {
+              background-color: transparent !important;
+            }
+
+            > .#{$ep-namespace}-sub-menu__title {
+              background-color: getCssVar('color', 'blue') !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

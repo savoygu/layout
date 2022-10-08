@@ -1,0 +1,15 @@
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
+
+:root {
+  @include setCssVar('base', $layout-base);
+  @include setCssVar('color', $layout-color);
+  @include setCssVar('logo', $layout-logo);
+  @include setCssVar('header', $layout-header);
+  @include setCssVar('topbar', $layout-topbar);
+  @include setCssVar('navbar', $layout-navbar);
+  @include setCssVar('tabbar', $layout-tabbar);
+  @include setCssVar('sidebar', $layout-sidebar);
+  @include setCssVar('app-main', $layout-app-main);
+  @include setCssVar('menu', $layout-menu);
+}
