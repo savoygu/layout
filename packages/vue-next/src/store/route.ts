@@ -10,8 +10,7 @@ export type RouteState = {
   routes: SlvRouteRecord[]
 }
 
-export const useRouteStore = defineStore({
-  id: 'route',
+export const useRouteStore = defineStore('route', {
   state: (): RouteState => ({
     activeTab: '', // 当前标签页 — 路由名称
     activeMenu: '', // 当前激活菜单
@@ -42,15 +41,18 @@ export const useRouteStore = defineStore({
       this.activeMenu = activeMenu
     },
     setRoutes({
+      routes,
       staticRoutes,
       dynamicRoutes
     }: {
+      routes: SlvRouteRecord[]
       staticRoutes: SlvRouteRecord[]
       dynamicRoutes: SlvRouteRecord[]
     }) {
       this.routes = resolveRoutes([
         ...(staticRoutes ?? []),
-        ...(dynamicRoutes ?? [])
+        ...(dynamicRoutes ?? []),
+        ...(routes ?? [])
       ])
     }
   }
@@ -58,7 +60,7 @@ export const useRouteStore = defineStore({
 
 export const getActiveMenuByRoute = (route: SlvRoute, isTabbar = false) => {
   const { path, meta, query, matched } = route
-  const rawPath = matched.at(-1)?.path ?? path
+  const rawPath = matched?.at(-1)?.path ?? path
   const fullPath =
     query && Object.keys(query).length ? `${path}?${qs.stringify(query)}` : path
   if (isTabbar) return meta.openNewTab ? fullPath : rawPath

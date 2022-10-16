@@ -15,6 +15,18 @@
   background: getCssVar('color', 'white');
   border-top: 1px solid #f6f6f6;
 
+  .#{$namespace}-fold {
+    margin-right: getCssVar('base', 'margin');
+  }
+
+  .#{$namespace}-icon {
+    vertical-align: -3px;
+  }
+
+  [class^='ri'] {
+    margin-right: 3px;
+  }
+
   @include e(list) {
     width: calc(100% - 40px);
 
@@ -42,6 +54,10 @@
           border: 1px solid getCssVar('base', 'border-color');
           border-radius: getCssVar('base', 'border-radius');
           transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+
+          &:first-child {
+            border-left: 1px solid getCssVar('base', 'border-color');
+          }
 
           &.is-active {
             color: getCssVar('color', 'blue');
@@ -115,12 +131,12 @@
     }
 
     @include m(smooth) {
-      height: calc(getCssVar('tabbar', 'tab-height') + 4);
+      height: calc(getCssVar('tabbar', 'tab-height') + 4px);
 
       .#{$ep-namespace}-tabs__nav-next,
       .#{$ep-namespace}-tabs__nav-prev {
-        height: calc(getCssVar('tabbar', 'tab-height') + 4);
-        line-height: calc(getCssVar('tabbar', 'tab-height') + 4);
+        height: calc(getCssVar('tabbar', 'tab-height') + 14px);
+        line-height: calc(getCssVar('tabbar', 'tab-height') + 14px);
       }
 
       .#{$ep-namespace}-tabs__header {
@@ -131,41 +147,53 @@
         }
 
         .#{$ep-namespace}-tabs__item {
-          height: calc(getCssVar('tabbar', 'tab-height') + 4);
-          padding: 0 30px 0 30px;
-          margin-top: #{(
-              getCssVar('tabbar', 'height') - getCssVar('tabbar', 'tab-height') -
-                4.1
-            ) / 2};
+          height: calc(getCssVar('tabbar', 'tab-height') + 4px);
+          padding: 0 30px;
+          margin-top: #{calc(
+              (
+                  getCssVar('tabbar', 'height') -
+                    getCssVar('tabbar', 'tab-height') - 4.1px
+                ) / 2
+            )};
           margin-right: -18px;
-          line-height: calc(getCssVar('tabbar', 'tab-height') + 4);
+          line-height: calc(getCssVar('tabbar', 'tab-height') + 4px);
           text-align: center;
           border: 0;
           outline: none;
           transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
 
+          &.is-closable {
+            &:hover {
+              padding: 0 30px;
+            }
+          }
+
           &.is-active {
-            padding: 0 30px 0 30px;
+            padding: 0 30px;
             color: getCssVar('color', 'blue');
             background: mix($color-white, $color-blue, 90%);
             outline: none;
-            mask: url('../assets/images/tab.png');
+            mask: url('../../assets/images/tab.png');
             mask-size: 100% 100%;
 
             &:hover {
-              padding: 0 30px 0 30px;
+              padding: 0 30px;
               color: getCssVar('color', 'blue');
               background: mix($color-white, $color-blue, 90%);
-              mask: url('../assets/images/tab.png');
+              mask: url('../../assets/images/tab.png');
               mask-size: 100% 100%;
+            }
+
+            &.is-closable {
+              padding: 0 30px;
             }
           }
 
           &:hover {
-            padding: 0 30px 0 30px;
+            padding: 0 30px;
             color: getCssVar('color', 'black');
             background: #dee1e6;
-            mask: url('../assets/images/tab.png');
+            mask: url('../../assets/images/tab.png');
             mask-size: 100% 100%;
           }
         }
@@ -182,6 +210,13 @@
     top: 0;
     left: 0;
     z-index: 10;
+
+    .#{$ep-namespace}-dropdown-menu__item {
+      &:hover {
+        color: getCssVar('color', 'blue');
+        background: mix($color-white, $color-blue, 90%);
+      }
+    }
   }
 
   @include e(more) {
@@ -190,7 +225,7 @@
     cursor: pointer;
     transition: transform 0.3s ease-out;
 
-    &-active {
+    @include when(active) {
       color: getCssVar('color', 'blue');
       transform: rotate(90deg);
     }

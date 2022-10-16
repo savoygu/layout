@@ -1,1 +1,6 @@
-export { SlvLogo, logoProps, type SlvLogoProps } from './SlvLogo'
+export {
+  SlvLogo,
+  logoProps,
+  type SlvLogoInstance,
+  type SlvLogoProps
+} from './SlvLogo'

@@ -1,12 +1,18 @@
-import { computed, defineComponent, type ExtractPropTypes } from 'vue'
+import {
+  computed,
+  defineComponent,
+  type ExtractPropTypes,
+  type PropType
+} from 'vue'
+import { RouterLink } from 'vue-router'
 import { SlvIcon } from '@/components/icon'
-import { ELayoutType } from '@/types'
 import { useGlobalConfig, useNamespace } from '@/composables'
+import { ELayoutType } from '@/types'
 
 export const logoProps = {
   layout: {
-    type: String,
-    default: ''
+    type: String as PropType<ELayoutType>,
+    required: true
   }
 } as const
 
@@ -14,7 +20,6 @@ export type SlvLogoProps = ExtractPropTypes<typeof logoProps>
 
 export const SlvLogo = defineComponent({
   name: 'SlvLogo',
-  components: { SlvIcon },
   props: logoProps,
   setup(props) {
     // composable
@@ -34,20 +39,20 @@ export const SlvLogo = defineComponent({
     })
 
     return () => (
-      <div class={[ns.b(), logoClass]}>
-        <router-link to="/">
-          <span class={ns.e('pic')}>
-            {globalConfig.value.logo && (
-              <SlvIcon icon={globalConfig.value.logo} />
+      <div class={[ns.b(), logoClass.value]}>
+        <RouterLink to="/">
+          <span class={ns.e('icon')}>
+            {globalConfig.value?.logo && (
+              <SlvIcon icon={globalConfig.value?.logo} isCustomSvg />
             )}
           </span>
-          <span class={[ns.e('title'), titleClass]}>
-            {globalConfig.value.title}
+          <span class={[ns.e('title'), titleClass.value]}>
+            {globalConfig.value?.title}
           </span>
-        </router-link>
+        </RouterLink>
       </div>
     )
   }
 })
 
-export type SlvLogo = InstanceType<typeof SlvLogo>
+export type SlvLogoInstance = InstanceType<typeof SlvLogo>

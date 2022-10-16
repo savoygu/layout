@@ -6,8 +6,7 @@ export type SettingState = {
   device: DeviceType
 }
 
-export const useSettingStore = defineStore({
-  id: 'setting',
+export const useSettingStore = defineStore('setting', {
   state: (): SettingState => ({
     foldSidebar: false,
     device: EDeviceType.DESKTOP

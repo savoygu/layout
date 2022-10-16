@@ -1,18 +1,34 @@
-import type { DeviceType } from '@/types'
-import { computed, defineComponent, h, type DefineComponent } from 'vue'
-import { useSettingStore } from '@/store'
-import type { SlvTheProviderContext } from '@/composables'
+import { computed, defineComponent, h } from 'vue'
+import { useSettingStore } from '@/store/setting'
+import type { SlvTheProviderContext } from '@/composables/useGlobalConfig'
 import { SlvTheProvider } from './SlvTheProvider'
-import type { SlvLayoutProps } from '@/layouts/layout'
+import type { SlvLayoutContext } from '@/layouts/layout'
+import type {
+  SlvComprehensive,
+  SlvFloat,
+  SlvHorizontal,
+  SlvVertical
+} from '@/layouts'
+import type { DeviceType } from '@/types'
 
-export type ResponsiveComponent = {
-  [k in DeviceType]: DefineComponent
+export type SlvLayoutComponent =
+  | typeof SlvFloat
+  | typeof SlvHorizontal
+  | typeof SlvVertical
+  | typeof SlvComprehensive
+
+export type SlvLayoutResponsive<T> = {
+  [k in DeviceType]: T
 }
 
+export type SlvLayout =
+  | SlvLayoutComponent
+  | SlvLayoutResponsive<SlvLayoutComponent>
+
 export const withSlvTheProvider = (
-  Layout: DefineComponent | ResponsiveComponent,
+  Layout: SlvLayout,
   config?: SlvTheProviderContext,
-  props?: SlvLayoutProps
+  props?: SlvLayoutContext
 ) => {
   return defineComponent(() => {
     // store
@@ -23,7 +39,7 @@ export const withSlvTheProvider = (
     })
 
     // methods
-    const LayoutComponent = (): DefineComponent => {
+    const LayoutComponent = () => {
       if (
         typeof Layout === 'object' &&
         'mobile' in Layout &&

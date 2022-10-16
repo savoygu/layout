@@ -3,6 +3,7 @@
 $layout-base: () !default;
 $layout-base: map.merge(
   (
+    'font-size': 14px,
     'padding': 20px,
     'margin': 20px,
     'border-color': #dcdfe6,
@@ -94,6 +95,7 @@ $layout-app-main: map.merge(
 $layout-menu: () !default;
 $layout-menu: map.merge(
   (
+    'height': 40px,
     'item-height': 50px,
     'color': hsla(0, 0%, 100%, 0.95),
     'color-active': hsla(0, 0%, 100%, 0.95),

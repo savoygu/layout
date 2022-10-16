@@ -1,1 +1,6 @@
-export { SlvTheMenu, theMenuProps, type SlvTheMenuProps } from './SlvTheMenu'
+export {
+  SlvTheMenu,
+  theMenuProps,
+  type SlvTheMenuInstance,
+  type SlvTheMenuProps
+} from './SlvTheMenu'

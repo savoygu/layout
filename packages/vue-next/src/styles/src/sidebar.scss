@@ -55,10 +55,6 @@
     overflow-x: hidden;
   }
 
-  .#{$ep-namespace}-menu {
-    border: 0;
-  }
-
   .#{$ep-namespace}-menu-item,
   .#{$ep-namespace}-sub-menu__title {
     height: getCssVar('menu', 'item-height');
@@ -75,5 +71,58 @@
 
   .#{$ep-namespace}-menu-item {
     @include active;
+  }
+}
+
+// global
+@mixin menuActiveHover {
+  &:hover,
+  &.is-active {
+    i {
+      color: getCssVar('color', 'white');
+    }
+
+    color: getCssVar('color', 'white');
+    background: getCssVar('color', 'blue');
+
+    .#{$ep-namespace}-sub-menu__title {
+      i {
+        color: getCssVar('color', 'white');
+      }
+
+      color: getCssVar('color', 'white');
+      background: getCssVar('color', 'blue');
+    }
+  }
+}
+
+.#{$ep-namespace}-menu {
+  border-right: 0;
+}
+
+.#{$ep-namespace}-popper {
+  .#{$ep-namespace}-menu--vertical {
+    .#{$ep-namespace}-menu-item,
+    .#{$ep-namespace}-sub-menu {
+      height: getCssVar('menu', 'item-height');
+      line-height: getCssVar('menu', 'item-height');
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
+      @include menuActiveHover;
+
+      i {
+        color: inherit;
+      }
+
+      .#{$ep-namespace}-sub-menu__title {
+        height: getCssVar('menu', 'item-height');
+        line-height: getCssVar('menu', 'item-height');
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
+        @include menuActiveHover;
+      }
+    }
   }
 }

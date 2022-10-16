@@ -1,1 +1,1 @@
-export { SlvTabbar } from './SlvTabbar'
+export { SlvTabbar, type SlvTabbarInstance } from './SlvTabbar'

@@ -1,1 +1,6 @@
-export { SlvNavbar, navbarProps, type SlvNavbarProps } from './SlvNavbar'
+export {
+  SlvNavbar,
+  navbarProps,
+  type SlvNavbarInstance,
+  type SlvNavbarProps
+} from './SlvNavbar'

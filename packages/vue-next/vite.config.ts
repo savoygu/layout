@@ -5,12 +5,14 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import dts from 'vite-plugin-dts'
+import visualizer from 'rollup-plugin-visualizer'
 
 const resolve = (...dirs: string[]) => _resolve(__dirname, ...dirs)
 
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
+    // minify: false,
     lib: {
       entry: resolve('src/index.ts'),
       name: 'LayoutVueNext',
@@ -22,12 +24,13 @@ export default defineConfig({
         globals: {
           vue: 'Vue',
           pinia: 'Pinia',
-          'vue-router': 'VueRouter'
+          'vue-router': 'VueRouter',
+          'element-plus': 'ElementPlus'
         }
       }
     }
   },
-  plugins: [vue(), vueJsx(), dts()],
+  plugins: [vue(), vueJsx(), dts(), visualizer()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

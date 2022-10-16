@@ -1,15 +1,17 @@
 import { storeToRefs } from 'pinia'
 import { defineComponent, type ExtractPropTypes, type PropType } from 'vue'
-import { SlvLogo, SlvTheMenu } from '@/components'
-import { useRouteStore } from '@/store'
+import { ElCol, ElMenu, ElRow } from 'element-plus'
+import { SlvLogo } from '@/components/logo'
+import { SlvTheMenu } from '@/components/the-menu'
+import { useRouteStore } from '@/store/route'
+import { useNamespace } from '@/composables'
 import variables from '@/styles/menu.module.scss'
 import { ELayoutType } from '@/types'
-import { useNamespace } from '@/composables'
 
 export const theHeaderProps = {
   layout: {
     type: String as PropType<ELayoutType>,
-    default: ''
+    required: true
   }
 } as const
 
@@ -17,9 +19,8 @@ export type SlvTheHeaderProps = ExtractPropTypes<typeof theHeaderProps>
 
 export const SlvTheHeader = defineComponent({
   name: 'SlvTheHeader',
-  components: { SlvLogo, SlvTheMenu },
   props: theHeaderProps,
-  setup(props) {
+  setup(props, { slots }) {
     // store
     const routeStore = useRouteStore()
     const { activeMenu, routes } = storeToRefs(routeStore)
@@ -33,33 +34,38 @@ export const SlvTheHeader = defineComponent({
       return (
         <div class={ns.b()}>
           <div class={lNs.b('main')}>
-            <el-row gutter={20}>
-              <el-col span={6}>
+            <ElRow gutter={20}>
+              <ElCol span={6}>
                 <SlvLogo layout={layout} />
-              </el-col>
-              <el-col span={18}>
+              </ElCol>
+              <ElCol span={18}>
                 <div class={ns.e('right-panel')}>
-                  <el-menu
-                    v-if={layout === ELayoutType.HORIZONTAL}
-                    text-color={variables.menuColor}
-                    active-text-color={variables.menuColorActive}
-                    background-color={variables.menuBackgroundColor}
-                    default-active={activeMenu.value}
-                    menu-trigger="hover"
-                    mode="horizontal"
-                  >
-                    {routes.value.map((route, index) => (
-                      <SlvTheMenu
-                        v-if={route.meta && !route.meta.hidden}
-                        key={index + route.name}
-                        route={route}
-                        layout={layout}
-                      />
-                    ))}
-                  </el-menu>
+                  {layout === ELayoutType.HORIZONTAL && (
+                    <ElMenu
+                      textColor={variables.menuColor}
+                      activeTextColor={variables.menuColorActive}
+                      backgroundColor={variables.menuBgColor}
+                      defaultActive={activeMenu.value}
+                      menuTrigger="hover"
+                      mode="horizontal"
+                    >
+                      {routes.value.map(
+                        (route, index) =>
+                          route.meta &&
+                          !route.meta.hidden && (
+                            <SlvTheMenu
+                              key={index + route.name}
+                              route={route}
+                              layout={layout}
+                            />
+                          )
+                      )}
+                    </ElMenu>
+                  )}
+                  {slots.header?.()}
                 </div>
-              </el-col>
-            </el-row>
+              </ElCol>
+            </ElRow>
           </div>
         </div>
       )
@@ -67,4 +73,4 @@ export const SlvTheHeader = defineComponent({
   }
 })
 
-export type SlvTheHeader = InstanceType<typeof SlvTheHeader>
+export type SlvTheHeaderInstance = InstanceType<typeof SlvTheHeader>

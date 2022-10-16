@@ -12,4 +12,10 @@
     width: 92% !important;
     margin: auto;
   }
+
+  .#{$namespace}-navbar {
+    .#{$namespace}-fold {
+      display: none;
+    }
+  }
 }

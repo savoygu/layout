@@ -1,0 +1,29 @@
+@use 'mixins/mixins' as *;
+
+@import 'remixicon/fonts/remixicon.css';
+
+[class^='ri-'] {
+  display: inline-block;
+  font-size: 16px;
+  text-align: center;
+  vertical-align: -3.5px;
+}
+
+@include b(icon) {
+  @include e(img) {
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    vertical-align: middle;
+  }
+
+  @include e(svg) {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 0 auto;
+    overflow: hidden;
+    vertical-align: middle;
+    fill: currentColor;
+  }
+}

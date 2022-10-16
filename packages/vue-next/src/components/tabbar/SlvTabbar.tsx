@@ -1,11 +1,20 @@
-import { storeToRefs } from 'pinia'
-import { computed, defineComponent, onMounted, reactive, ref, watch } from 'vue'
+import { computed, defineComponent, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { SlvIcon } from '@/components'
-import type { SlvRoute, SlvRouteRecord, SlvTab } from '@/types'
+import { storeToRefs } from 'pinia'
+import {
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
+  ElTabPane,
+  ElTabs,
+  type TabPaneName,
+  type TabsPaneContext
+} from 'element-plus'
+import { SlvIcon } from '@/components/icon'
 import { getActiveMenuByRoute, useRouteStore } from '@/store/route'
 import { useTabbarStore, getTabByRoute } from '@/store/tabbar'
 import { useElNamespace, useGlobalConfig, useNamespace } from '@/composables'
+import type { SlvRoute, SlvRouteRecord, SlvTab } from '@/types'
 
 export type SlvTabbarContextMenu = {
   position: {
@@ -18,7 +27,6 @@ export type SlvTabbarContextMenu = {
 
 export const SlvTabbar = defineComponent({
   name: 'SlvTabbar',
-  components: { SlvIcon },
   setup() {
     // store
     const router = useRouter()
@@ -30,7 +38,7 @@ export const SlvTabbar = defineComponent({
 
     // composable
     const ns = useNamespace('tabbar')
-    const nsEl = useElNamespace('dropdown-menu')
+    const dNs = useElNamespace('dropdown-menu')
     const tabbarStyle = useGlobalConfig('tabbarStyle')
 
     // data
@@ -98,16 +106,14 @@ export const SlvTabbar = defineComponent({
       }
       router.push((lastTab as unknown as SlvRouteRecord) ?? '/')
     }
-    const handleTabClick = <T extends { name: string; index: number }>(
-      tab: T
-    ) => {
-      if (!isActive(tab.name)) {
-        router.push(visitedRoutes.value[tab.index] as unknown as SlvRouteRecord)
+    const handleTabClick = (tab: TabsPaneContext) => {
+      if (!isActive(tab.props.name as string)) {
+        router.push(visitedRoutes.value[Number(tab.index)])
       }
     }
-    const handleTabRemove = (path: string) => {
-      tabbarStore.removeTab(path)
-      if (isActive(path)) toLastTab()
+    const handleTabRemove = (path: TabPaneName) => {
+      tabbarStore.removeTab(path as string)
+      if (isActive(path as string)) toLastTab()
     }
     const handleContextMenuOpen = (event: MouseEvent, route: SlvTab) => {
       event.preventDefault()
@@ -116,7 +122,6 @@ export const SlvTabbar = defineComponent({
       if (!tabbarEl) return
 
       const rect = tabbarEl.getBoundingClientRect()
-      console.log(rect, tabbarEl.offsetWidth, event.clientX, event.clientY)
       contextmenu.position.left = Math.round(
         Math.min(event.clientX - rect.left, tabbarEl.offsetWidth)
       )
@@ -189,7 +194,7 @@ export const SlvTabbar = defineComponent({
       tabMoreActive.value = value
     }
     // render
-    const renderSlotLabel = (route: SlvTab) => {
+    const renderTabPaneLabel = (route: SlvTab) => {
       const { meta, parentIcon } = route
       return () => (
         <span
@@ -197,7 +202,7 @@ export const SlvTabbar = defineComponent({
           onContextmenu={($event) => handleContextMenuOpen($event, route)}
         >
           {meta.icon ? (
-            <SlvIcon icon={meta.icon} is-custom-svg={meta.isCustomSvg} />
+            <SlvIcon icon={meta.icon} isCustomSvg={meta.isCustomSvg} />
           ) : (
             parentIcon && <SlvIcon icon={parentIcon} />
           )}
@@ -205,36 +210,42 @@ export const SlvTabbar = defineComponent({
         </span>
       )
     }
-    const renderSlotDropdown = () => (
-      <el-dropdown-menu>
-        <el-dropdown-item command="closeOthersTabs">
+    const renderDropdownMenu = () => (
+      <ElDropdownMenu>
+        <ElDropdownItem command="closeOthersTabs">
           <SlvIcon icon="close-line" />
           <span>关闭其他</span>
-        </el-dropdown-item>
-        <el-dropdown-item command="closeLeftTabs">
+        </ElDropdownItem>
+        <ElDropdownItem command="closeLeftTabs">
           <SlvIcon icon="arrow-left-line" />
           <span>关闭左侧</span>
-        </el-dropdown-item>
-        <el-dropdown-item command="closeRightTabs">
+        </ElDropdownItem>
+        <ElDropdownItem command="closeRightTabs">
           <SlvIcon icon="arrow-right-line" />
           <span>关闭右侧</span>
-        </el-dropdown-item>
-        <el-dropdown-item command="closeAllTabs">
+        </ElDropdownItem>
+        <ElDropdownItem command="closeAllTabs">
           <SlvIcon icon="close-line" />
           <span>关闭全部</span>
-        </el-dropdown-item>
-      </el-dropdown-menu>
+        </ElDropdownItem>
+      </ElDropdownMenu>
+    )
+    const renderDropdownDefault = () => (
+      <SlvIcon
+        icon="function-fill"
+        class={[ns.e('more'), ns.is('active', tabMoreActive.value)]}
+      />
     )
     const renderContextMenu = () =>
       contextmenu.visible && (
         <ul
-          class={[ns.e('contextmenu'), nsEl.b(), nsEl.m('small')]}
+          class={[ns.e('contextmenu'), dNs.b(), dNs.m('small')]}
           style={contextmenuStyle.value}
         >
           <li
             class={[
-              nsEl.e('item'),
-              nsEl.is('disabled', visitedRoutes.value.length === 1)
+              dNs.e('item'),
+              dNs.is('disabled', visitedRoutes.value.length === 1)
             ]}
             onClick={handleOthersTabsClose}
           >
@@ -243,8 +254,8 @@ export const SlvTabbar = defineComponent({
           </li>
           <li
             class={[
-              nsEl.e('item'),
-              nsEl.is('disabled', isFirstVisitedRoute(contextmenu.route))
+              dNs.e('item'),
+              dNs.is('disabled', isFirstVisitedRoute(contextmenu.route))
             ]}
             onClick={handleLeftTabsClose}
           >
@@ -253,15 +264,15 @@ export const SlvTabbar = defineComponent({
           </li>
           <li
             class={[
-              nsEl.e('item'),
-              nsEl.is('disabled', isLastVisitedRoute(contextmenu.route))
+              dNs.e('item'),
+              dNs.is('disabled', isLastVisitedRoute(contextmenu.route))
             ]}
             onClick={handleRightTabsClose}
           >
             <SlvIcon icon="arrow-right-line" />
             <span>关闭右侧</span>
           </li>
-          <li class={nsEl.e('item')} onClick={handleAllTabsClose}>
+          <li class={dNs.e('item')} onClick={handleAllTabsClose}>
             <SlvIcon icon="close-line" />
             <span>关闭全部</span>
           </li>
@@ -269,9 +280,7 @@ export const SlvTabbar = defineComponent({
       )
 
     // lifecycle
-    onMounted(() => {
-      initTabs(routes.value)
-    })
+    initTabs(routes.value)
 
     // watch
     watch(
@@ -283,8 +292,8 @@ export const SlvTabbar = defineComponent({
     )
 
     return () => (
-      <div ref="tabbarRef" class={ns.b()}>
-        <el-tabs
+      <div ref={tabbarRef} class={ns.b()}>
+        <ElTabs
           v-model={tabActive.value}
           class={[ns.e('list'), tabbarClass.value]}
           type="card"
@@ -293,32 +302,30 @@ export const SlvTabbar = defineComponent({
         >
           {visitedRoutes.value.map((route) => {
             return (
-              <el-tab-pane
+              <ElTabPane
                 key={route.path}
                 closable={isClosable(route)}
                 name={route.path}
                 v-slots={{
-                  label: renderSlotLabel(route)
+                  label: renderTabPaneLabel(route)
                 }}
-              ></el-tab-pane>
+              ></ElTabPane>
             )
           })}
-        </el-tabs>
-        <el-dropdown
+        </ElTabs>
+        <ElDropdown
           size="small"
           onCommand={handleCommand}
-          onVisibleChange={handleVisibleChange}
-          v-slots={{ dropdown: renderSlotDropdown }}
-        >
-          <SlvIcon
-            icon="el-icon-menu"
-            class={[ns.e('more'), ns.is('active', tabMoreActive.value)]}
-          />
-        </el-dropdown>
+          onVisible-change={handleVisibleChange}
+          v-slots={{
+            dropdown: renderDropdownMenu,
+            default: renderDropdownDefault
+          }}
+        ></ElDropdown>
         {renderContextMenu()}
       </div>
     )
   }
 })
 
-export type SlvTabbar = InstanceType<typeof SlvTabbar>
+export type SlvTabbarInstance = InstanceType<typeof SlvTabbar>

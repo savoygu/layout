@@ -1,13 +1,13 @@
-import { storeToRefs } from 'pinia'
 import { computed, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { ElBreadcrumb, ElBreadcrumbItem } from 'element-plus'
 import { SlvIcon } from '@/components/icon'
 import { useRouteStore, getMatchedRoutes } from '@/store/route'
 import { useNamespace } from '@/composables'
 
 export const SlvBreadcrumb = defineComponent({
   name: 'SlvBreadcrumb',
-  components: { SlvIcon },
   setup() {
     // store
     const route = useRoute()
@@ -25,19 +25,21 @@ export const SlvBreadcrumb = defineComponent({
     })
 
     return () => (
-      <el-breadcrumb class={ns.b()} separator=">">
+      <ElBreadcrumb class={ns.b()} separator=">">
         {breadcrumbList.value.map((route, index) => {
           const { meta, redirect } = route
           return (
-            <el-breadcrumb-item key={index} to={{ path: redirect }}>
-              {meta.icon && <SlvIcon icon={meta.icon} />}
-              {meta.title}
-            </el-breadcrumb-item>
+            <ElBreadcrumbItem key={index} to={{ path: redirect ?? '' }}>
+              {meta.icon && (
+                <SlvIcon icon={meta.icon} isCustomSvg={meta.isCustomSvg} />
+              )}
+              {meta.title && <span>{meta.title}</span>}
+            </ElBreadcrumbItem>
           )
         })}
-      </el-breadcrumb>
+      </ElBreadcrumb>
     )
   }
 })
 
-export type SlvBreadcrumb = InstanceType<typeof SlvBreadcrumb>
+export type SlvBreadcrumbInstance = InstanceType<typeof SlvBreadcrumb>

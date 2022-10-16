@@ -1,1 +1,6 @@
-export { SlvFloat, floatProps, type SlvFloatProps } from './SlvFloat'
+export {
+  SlvFloat,
+  floatProps,
+  type SlvFloatInstance,
+  type SlvFloatProps
+} from './SlvFloat'

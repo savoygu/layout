@@ -1,1 +1,6 @@
-export { SlvSidebar, sidebarProps, type SlvSidebarProps } from './SlvSidebar'
+export {
+  SlvSidebar,
+  sidebarProps,
+  type SlvSidebarInstance,
+  type SlvSidebarProps
+} from './SlvSidebar'

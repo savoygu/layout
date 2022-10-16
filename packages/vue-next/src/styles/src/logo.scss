@@ -14,6 +14,7 @@
   height: 32px;
   color: getCssVar('logo', 'title-color');
   vertical-align: middle;
+  fill: currentColor;
 }
 
 @mixin title {
@@ -32,7 +33,7 @@
   @include m(horizontal) {
     @include container;
 
-    .#{$namespace}-logo__pic {
+    .#{$namespace}-logo__icon {
       svg,
       img {
         @include logo;
@@ -44,14 +45,14 @@
     }
   }
 
-  @include m((horizontal, comprehensive, float)) {
+  @include m((vertical, comprehensive, float)) {
     @include container;
 
     height: getCssVar('logo', 'height');
     line-height: getCssVar('logo', 'height');
     text-align: center;
 
-    .#{$namespace}-logo__pic {
+    .#{$namespace}-logo__icon {
       svg,
       img {
         @include logo;
@@ -60,7 +61,7 @@
 
     .#{$namespace}-logo__title {
       @include title;
-      max-width: calc(getCssVar('sidebar', 'unfolded-width') - 60);
+      max-width: calc(getCssVar('sidebar', 'unfolded-width') - 60px);
     }
   }
 }

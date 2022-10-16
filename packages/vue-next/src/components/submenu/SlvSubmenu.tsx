@@ -1,4 +1,5 @@
 import { defineComponent, type ExtractPropTypes, type PropType } from 'vue'
+import { ElSubMenu } from 'element-plus'
 import { SlvIcon } from '@/components/icon'
 import type { SlvRouteMeta, SlvRouteRecord } from '@/types'
 
@@ -15,16 +16,15 @@ export const SlvSubmenu = defineComponent({
   name: 'SlvSubmenu',
   components: { SlvIcon },
   props: submenuProps,
-  setup(props) {
+  setup(props, { slots }) {
     // methods
     // render
-    const renderSlotTitle = (meta: SlvRouteMeta) => {
+    const renderSubmenuTitle = (meta: SlvRouteMeta) => {
+      const { title, icon, isCustomSvg } = meta
       return () => (
         <>
-          {meta.icon && (
-            <SlvIcon icon={meta.icon} is-custom-svg={meta.isCustomSvg} />
-          )}
-          <span>{meta.title}</span>
+          {icon && <SlvIcon icon={icon} isCustomSvg={isCustomSvg} />}
+          <span>{title}</span>
         </>
       )
     }
@@ -32,12 +32,12 @@ export const SlvSubmenu = defineComponent({
     return () => {
       const { path, meta } = props.itemOrMenu
       return (
-        <el-sub-menu index={path} popper-append-to-body>
+        <ElSubMenu index={path} popperAppendToBody>
           {{
-            title: renderSlotTitle(meta)
+            title: renderSubmenuTitle(meta),
+            default: slots.default
           }}
-          <slot />
-        </el-sub-menu>
+        </ElSubMenu>
       )
     }
   }

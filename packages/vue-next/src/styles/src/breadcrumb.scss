@@ -1,0 +1,27 @@
+@use 'mixins/mixins' as *;
+
+@include b(breadcrumb) {
+  height: getCssVar('navbar', 'height');
+  font-size: getCssVar('base', 'font-size');
+  line-height: getCssVar('navbar', 'height') !important;
+
+  .#{$ep-namespace}-breadcrumb__item {
+    .#{$ep-namespace}-breadcrumb__inner {
+      font-weight: normal;
+      color: getCssVar('color', 'black');
+
+      i,
+      svg {
+        margin-right: 3px;
+      }
+    }
+
+    &:last-child {
+      .#{$ep-namespace}-breadcrumb__inner {
+        a {
+          color: #999;
+        }
+      }
+    }
+  }
+}

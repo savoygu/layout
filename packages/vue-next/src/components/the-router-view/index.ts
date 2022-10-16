@@ -1,1 +1,4 @@
-export { SlvTheRouteView } from './SlvTheRouteView'
+export {
+  SlvTheRouteView,
+  type SlvTheRouteViewInstance
+} from './SlvTheRouteView'

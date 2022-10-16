@@ -1,10 +1,17 @@
 import { storeToRefs } from 'pinia'
-import { defineComponent, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import type { SlvRoute } from '@/types'
+import {
+  defineComponent,
+  KeepAlive,
+  onMounted,
+  ref,
+  Transition,
+  watch
+} from 'vue'
+import { RouterView, useRoute } from 'vue-router'
 import { getActiveMenuByRoute } from '@/store/route'
 import { useTabbarStore } from '@/store/tabbar'
-import { useGlobalConfig } from '@/composables'
+import { useGlobalConfig } from '@/composables/useGlobalConfig'
+import type { SlvRoute } from '@/types'
 
 export const SlvTheRouteView = defineComponent({
   name: 'SlvTheRouteView',
@@ -45,17 +52,25 @@ export const SlvTheRouteView = defineComponent({
       updateKeepAliveNameList()
     })
 
-    return () => (
-      <transition mode="out-in" name="fade-transform">
-        <keep-alive
-          include={keepAliveNameList.value}
-          max={keepAliveMaxNum.value}
-        >
-          <router-view key={routerKey.value} />
-        </keep-alive>
-      </transition>
-    )
+    return () => {
+      return (
+        <RouterView
+          v-slots={{
+            default: ({ Component }: { Component: any }) => (
+              <Transition mode="out-in" name="fade-transform">
+                <KeepAlive
+                  include={keepAliveNameList.value}
+                  max={keepAliveMaxNum.value}
+                >
+                  <Component key={routerKey.value}></Component>
+                </KeepAlive>
+              </Transition>
+            )
+          }}
+        ></RouterView>
+      )
+    }
   }
 })
 
-export type SlvTheRouteView = InstanceType<typeof SlvTheRouteView>
+export type SlvTheRouteViewInstance = InstanceType<typeof SlvTheRouteView>

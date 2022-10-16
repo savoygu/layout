@@ -1,10 +1,13 @@
-import { storeToRefs } from 'pinia'
 import { defineComponent, type ExtractPropTypes } from 'vue'
-import { SlvAppMain, SlvNavbar, SlvSidebar, SlvTabbar } from '@/components'
+import { storeToRefs } from 'pinia'
+import { SlvAppMain } from '@/components/app-main'
+import { SlvNavbar } from '@/components/navbar'
+import { SlvSidebar } from '@/components/sidebar'
+import { SlvTabbar } from '@/components/tabbar'
 import { useSettingStore } from '@/store/setting'
-import { ELayoutType } from '@/types'
-import { useNamespace } from '@/composables'
+import { useNamespace } from '@/composables/useNamespace'
 import { layoutProps } from '../layout'
+import { ELayoutType } from '@/types'
 
 export const verticalProps = {
   ...layoutProps
@@ -14,9 +17,8 @@ export type SlvVerticalProps = ExtractPropTypes<typeof verticalProps>
 
 export const SlvVertical = defineComponent({
   name: 'SlvVertical',
-  components: { SlvAppMain, SlvNavbar, SlvSidebar, SlvTabbar },
   props: verticalProps,
-  setup(props) {
+  setup(props, { slots }) {
     // store
     const store = useSettingStore()
     const { foldSidebar } = storeToRefs(store)
@@ -39,7 +41,7 @@ export const SlvVertical = defineComponent({
           <div
             class={[lNs.b('top'), lNs.is('fixed-header', props.fixedHeader)]}
           >
-            <SlvNavbar />
+            <SlvNavbar v-slots={{ navbar: () => slots.navbar?.() }}></SlvNavbar>
             {props.showTabbar && <SlvTabbar />}
           </div>
           <SlvAppMain />
@@ -49,4 +51,4 @@ export const SlvVertical = defineComponent({
   }
 })
 
-export type SlvVertical = InstanceType<typeof SlvVertical>
+export type SlvVerticalInstance = InstanceType<typeof SlvVertical>

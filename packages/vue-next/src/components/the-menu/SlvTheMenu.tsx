@@ -1,4 +1,3 @@
-import { storeToRefs } from 'pinia'
 import {
   computed,
   defineComponent,
@@ -6,10 +5,13 @@ import {
   type ExtractPropTypes,
   type PropType
 } from 'vue'
-import { SlvMenuItem, SlvSubmenu } from '@/components'
-import { ELayoutType, type SlvRouteRecord } from '@/types'
+import { storeToRefs } from 'pinia'
+import { ElScrollbar } from 'element-plus'
+import { SlvMenuItem } from '@/components/menu-item'
+import { SlvSubmenu } from '@/components/submenu'
 import { useSettingStore } from '@/store/setting'
-import { useNamespace } from '@/composables'
+import { useNamespace } from '@/composables/useNamespace'
+import { ELayoutType, type SlvRouteRecord } from '@/types'
 
 export const theMenuProps = {
   route: {
@@ -67,9 +69,9 @@ export const SlvTheMenu = defineComponent({
             {children &&
               children.length > 0 &&
               (showScrollbar.value ? (
-                <el-scrollbar class={ns.e('scrollbar')}>
+                <ElScrollbar class={ns.e('scrollbar')}>
                   {renderChildren(children)}
-                </el-scrollbar>
+                </ElScrollbar>
               ) : (
                 renderChildren(children)
               ))}
@@ -80,4 +82,4 @@ export const SlvTheMenu = defineComponent({
   }
 })
 
-export type SlvTheMenu = InstanceType<typeof SlvTheMenu>
+export type SlvTheMenuInstance = InstanceType<typeof SlvTheMenu>

@@ -1,1 +1,1 @@
-export { SlvBreadcrumb } from './SlvBreadcrumb'
+export { SlvBreadcrumb, type SlvBreadcrumbInstance } from './SlvBreadcrumb'

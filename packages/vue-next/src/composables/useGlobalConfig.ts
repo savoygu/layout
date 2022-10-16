@@ -1,6 +1,3 @@
-import type { SlvTheProviderProps } from '@/components/the-provider'
-import type { MaybeRef } from '@/types'
-import { keysOf } from '@/utils'
 import {
   computed,
   getCurrentInstance,
@@ -12,12 +9,15 @@ import {
   type InjectionKey,
   type Ref
 } from 'vue'
+import type { SlvTheProviderProps } from '@/components/the-provider'
+import { keysOf } from '@/utils'
+import type { MaybeRef } from '@/types'
 
 export type SlvTheProviderContext = Partial<SlvTheProviderProps>
 
 const theProviderContextKey: InjectionKey<Ref<SlvTheProviderContext>> = Symbol()
 
-const globalConfig = ref<SlvTheProviderContext>()
+const globalConfig = ref<SlvTheProviderContext>({})
 
 export function useGlobalConfig<
   K extends keyof SlvTheProviderContext,
@@ -46,6 +46,9 @@ export const provideGlobalConfig = (
   global = false
 ) => {
   const isSetup = !!getCurrentInstance()
+
+  console.log(isSetup, getCurrentInstance())
+
   const oldConfig = isSetup ? useGlobalConfig() : undefined
 
   const provideFn = app?.provide ?? (isSetup ? provide : undefined)

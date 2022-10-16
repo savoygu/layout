@@ -1,13 +1,12 @@
 import { computed, defineComponent, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import type { SlvRoute } from '@/types'
 import { SlvTheRouteView } from '@/components/the-router-view'
 import { getActiveMenuByRoute, useRouteStore } from '@/store/route'
 import { useNamespace } from '@/composables'
+import type { SlvRoute } from '@/types'
 
 export const SlvAppMain = defineComponent({
   name: 'SlvAppMain',
-  components: { SlvTheRouteView },
   setup() {
     // store
     const route = useRoute() as SlvRoute
@@ -38,4 +37,4 @@ export const SlvAppMain = defineComponent({
   }
 })
 
-export type SlvAppMain = InstanceType<typeof SlvAppMain>
+export type SlvAppMainInstance = InstanceType<typeof SlvAppMain>

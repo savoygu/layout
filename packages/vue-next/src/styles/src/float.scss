@@ -28,7 +28,7 @@
     &.#{$ep-namespace}-menu--collapse {
       li {
         &.#{$ep-namespace}-sub-menu {
-          &.is-active {
+          @include when(active) {
             .#{$ep-namespace}-sub-menu__title {
               background-color: transparent !important;
             }

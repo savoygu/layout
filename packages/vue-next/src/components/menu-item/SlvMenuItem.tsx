@@ -1,9 +1,13 @@
 import { defineComponent, type ExtractPropTypes, type PropType } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { ElMenuItem, ElTag } from 'element-plus'
 import { SlvIcon } from '@/components/icon'
-import type { SlvRouteMeta, SlvRouteRecord } from '@/types'
+import { useSettingStore } from '@/store/setting'
+import { useNamespace } from '@/composables/useNamespace'
+import { useGlobalConfig } from '@/composables/useGlobalConfig'
 import { isExternal } from '@/utils'
-import { useGlobalConfig, useNamespace } from '@/composables'
+import { EDeviceType, type SlvRouteMeta, type SlvRouteRecord } from '@/types'
 
 export const menuItemProps = {
   itemOrMenu: {
@@ -16,12 +20,13 @@ export type SlvMenuItemProps = ExtractPropTypes<typeof menuItemProps>
 
 export const SlvMenuItem = defineComponent({
   name: 'SlvMenuItem',
-  components: { SlvIcon },
   props: menuItemProps,
   setup(props) {
     // store
     const route = useRoute()
     const router = useRouter()
+    const settingStore = useSettingStore()
+    const { device } = storeToRefs(settingStore)
 
     // composable
     const ns = useNamespace('menu-item')
@@ -39,23 +44,29 @@ export const SlvMenuItem = defineComponent({
         }
       } else {
         if (isExternal(path)) window.location.href = path
-        else if (route.fullPath !== path) router.push(path)
+        else if (route.fullPath !== path) {
+          if (device.value === EDeviceType.MOBILE) {
+            settingStore.setFoldSidebar(true)
+          }
+          router.push(path)
+        }
       }
     }
     // render
     const renderIcon = (meta: SlvRouteMeta) => {
       return (
-        meta.icon && (
-          <SlvIcon icon={meta.icon} is-custom-svg={meta.isCustomSvg} />
-        )
+        meta.icon && <SlvIcon icon={meta.icon} isCustomSvg={meta.isCustomSvg} />
       )
+    }
+    const renderTitle = (meta: SlvRouteMeta) => {
+      return <span title={meta.title}>{meta.title}</span>
     }
     const renderBadge = (meta: SlvRouteMeta) => {
       return (
         meta.badge && (
-          <el-tag effect="dark" type="danger">
+          <ElTag effect="dark" type="danger">
             {meta.badge}
-          </el-tag>
+          </ElTag>
         )
       )
     }
@@ -72,15 +83,15 @@ export const SlvMenuItem = defineComponent({
     return () => {
       const { meta, path } = props.itemOrMenu
       return (
-        <el-menu-item class={ns.b()} index={path} onClick={handleMenuItemClick}>
+        <ElMenuItem class={ns.b()} index={path} onClick={handleMenuItemClick}>
           {renderIcon(meta)}
-          <span title={meta.title}>{meta.title}</span>
+          {renderTitle(meta)}
           {renderBadge(meta)}
           {renderDot(meta)}
-        </el-menu-item>
+        </ElMenuItem>
       )
     }
   }
 })
 
-export type SlvMenuItem = InstanceType<typeof SlvMenuItem>
+export type SlvMenuItemInstance = InstanceType<typeof SlvMenuItem>

@@ -4,11 +4,14 @@ import {
   onBeforeUnmount,
   type ExtractPropTypes
 } from 'vue'
-import { SlvAppMain, SlvNavbar, SlvSidebar, SlvTabbar } from '@/components'
+import { SlvAppMain } from '@/components/app-main'
+import { SlvNavbar } from '@/components/navbar'
+import { SlvSidebar } from '@/components/sidebar'
+import { SlvTabbar } from '@/components/tabbar'
 import { useSettingStore } from '@/store/setting'
-import { ELayoutType } from '@/types'
-import { useNamespace } from '@/composables'
+import { useNamespace } from '@/composables/useNamespace'
 import { layoutProps } from '../layout'
+import { ELayoutType } from '@/types'
 
 export const floatProps = {
   ...layoutProps
@@ -18,9 +21,8 @@ export type SlvFloatProps = ExtractPropTypes<typeof floatProps>
 
 export const SlvFloat = defineComponent({
   name: 'SlvFloat',
-  components: { SlvAppMain, SlvNavbar, SlvSidebar, SlvTabbar },
   props: floatProps,
-  setup(props) {
+  setup(props, { slots }) {
     // store
     const settingStore = useSettingStore()
 
@@ -46,10 +48,15 @@ export const SlvFloat = defineComponent({
         ]}
       >
         <SlvSidebar layout={ELayoutType.FLOAT} />
-        <div class={ns.b('main')}>
-          <div class={[ns.b('top'), lNs.is('fixed-header', props.fixedHeader)]}>
-            <SlvNavbar layout={ELayoutType.FLOAT} />
-            <SlvTabbar v-if={props.showTabbar} />
+        <div class={lNs.b('main')}>
+          <div
+            class={[lNs.b('top'), lNs.is('fixed-header', props.fixedHeader)]}
+          >
+            <SlvNavbar
+              layout={ELayoutType.FLOAT}
+              v-slots={{ navbar: () => slots.navbar?.() }}
+            />
+            {props.showTabbar && <SlvTabbar />}
           </div>
           <SlvAppMain />
         </div>
@@ -58,4 +65,4 @@ export const SlvFloat = defineComponent({
   }
 })
 
-export type SlvFloat = InstanceType<typeof SlvFloat>
+export type SlvFloatInstance = InstanceType<typeof SlvFloat>

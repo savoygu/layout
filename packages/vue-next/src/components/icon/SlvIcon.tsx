@@ -1,5 +1,3 @@
-import 'remixicon/fonts/remixicon.css'
-import remixIconPath from 'remixicon/fonts/remixicon.symbol.svg'
 import {
   computed,
   defineComponent,
@@ -7,26 +5,36 @@ import {
   type PropType
 } from 'vue'
 import { isExternal } from '@/utils'
-import { useNamespace } from '@/composables'
+import { useNamespace } from '@/composables/useNamespace'
 
 export const iconProps = {
   icon: {
     type: String,
     required: true
   },
-  // 是否使用自定义图标
+  isLocalImage: {
+    type: Boolean,
+    default: false
+  },
   isCustomSvg: {
     type: Boolean,
     default: false
   },
-  // 是否使用本地库Remix图标
-  isDefaultSvg: {
+  isRemixSvg: {
     type: Boolean,
     default: false
   },
   className: {
     type: String,
     default: ''
+  },
+  svgPrefix: {
+    type: String,
+    default: 'slv-svg-'
+  },
+  iconPrefix: {
+    type: String,
+    default: 'ri-'
   },
   onClick: Function as PropType<(e: MouseEvent) => void>
 } as const
@@ -41,49 +49,36 @@ export const SlvIcon = defineComponent({
     const ns = useNamespace('icon')
 
     // computed
-    const isImage = computed(() => {
-      return ['data:image', '.png', '.jpeg', '.jpg', '.webp'].some((suffix) =>
-        props.icon.includes(suffix)
-      )
-    })
     const svgClass = computed(() => {
-      if (props.className) return [ns.e('svg'), props.className]
-      else return ns.e('svg')
+      return [ns.e('svg'), props.className].filter(Boolean)
     })
-    const iconClass = computed(() => {
-      return props.icon.startsWith('el-icon')
-        ? {
-            [props.icon]: true
-          }
-        : {
-            ['ri-' + props.icon]: true
-          }
-    })
-    const isExternalIcon = computed(() => isExternal(props.icon))
 
     return () => {
-      const { icon, isCustomSvg, isDefaultSvg } = props
+      const { icon, isCustomSvg, isRemixSvg, svgPrefix, iconPrefix } = props
 
-      if (isExternalIcon.value || isImage) {
-        return <img src={icon} class={ns.e('img')} />
+      if (isExternal(icon) || props.isLocalImage) {
+        return <img src={icon} class={ns.e('img')} onClick={props.onClick} />
       } else if (isCustomSvg) {
         return (
-          <svg class={svgClass.value} aria-hidden="true">
-            <use xlinkHref={'#icon-' + icon} />
+          <svg class={svgClass.value} aria-hidden onClick={props.onClick}>
+            <use xlinkHref={`#${svgPrefix + icon}`} />
           </svg>
         )
-      } else if (isDefaultSvg) {
-        // 内置svg雪碧图较大，对性能要求苛刻的用户请勿使用isDefaultSvg属性
+      } else if (isRemixSvg) {
+        // 内置 svg 雪碧图较大，对性能要求苛刻的用户请勿使用 isRemixSvg 属性
+        const remixIconPath = require('remixicon/fonts/remixicon.symbol.svg')
         return (
-          <svg class={ns.e('svg')}>
-            <use xlinkHref={remixIconPath + '#ri-' + icon} />
+          <svg class={ns.e('svg')} onClick={props.onClick}>
+            <use xlinkHref={`${remixIconPath}#${iconPrefix + icon}`} />
           </svg>
         )
       } else {
-        return <i v-else class={iconClass} aria-hidden="true" />
+        return (
+          <i class={iconPrefix + icon} aria-hidden onClick={props.onClick} />
+        )
       }
     }
   }
 })
 
-export type SlvIcon = InstanceType<typeof SlvIcon>
+export type SlvIconInstance = InstanceType<typeof SlvIcon>

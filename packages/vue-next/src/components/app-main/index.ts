@@ -1,1 +1,1 @@
-export { SlvAppMain } from './SlvAppMain'
+export { SlvAppMain, type SlvAppMainInstance } from './SlvAppMain'

@@ -1,11 +1,19 @@
 @use 'common/var' as *;
 @use 'mixins/mixins' as *;
 
+@mixin active {
+  &:hover,
+  &.is-active {
+    color: getCssVar('color', 'white') !important;
+    background-color: getCssVar('color', 'blue') !important;
+  }
+}
+
 @include b(the-header) {
   display: flex;
   align-items: center;
   justify-items: flex-end;
-  height: getCssCar('topbar', 'height');
+  height: getCssVar('topbar', 'height');
   background-color: getCssVar('menu', 'bg-color');
 
   .#{$namespace}-layout-main {
@@ -15,106 +23,137 @@
   @include e(right-panel) {
     display: flex;
     align-items: center;
-    // justify-content: flex-end;
-    height: getCssCar('topbar', 'height');
+    justify-content: flex-end;
+    height: getCssVar('topbar', 'height');
 
-    > .#{$ep-namespace}-menu--horizontal.el-menu
-      > .#{$ep-namespace}-submenu
-      > .#{$ep-namespace}-submenu__title
-      > .#{$ep-namespace}-submenu__icon-arrow {
-      float: right;
-      margin-top: #{calc((getCssCar('topbar', 'height') - 11) / 2)} !important;
-    }
-
-    .#{$ep-namespace}-submenu {
-      [class^='el-icon-'] {
-        margin-top: #{calc((getCssCar('topbar', 'height') - 18) / 2)} !important;
+    .#{$ep-namespace}-sub-menu__icon-more {
+      &.#{$ep-namespace}-icon {
+        margin-top: #{calc((getCssVar('menu', 'height') - 20px) / 2)};
+        margin-right: 20px !important;
       }
     }
 
-    > .#{$ep-namespace}-menu--horizontal.el-menu > .#{$ep-namespace}-menu-item {
-      .#{$ep-namespace}-tag {
-        margin-top: #{calc((getCssCar('topbar', 'height') / 2) - 7.5)} !important;
-        margin-left: 5px;
+    > .#{$ep-namespace}-menu--horizontal.#{$ep-namespace}-menu {
+      > .#{$ep-namespace}-sub-menu {
+        > .#{$ep-namespace}-sub-menu__title {
+          padding-right: 0;
+
+          > .#{$ep-namespace}-sub-menu__icon-arrow {
+            position: relative !important;
+            margin-top: -5px !important;
+            margin-right: 0;
+            margin-left: 30px;
+          }
+        }
       }
 
-      .#{$namespace}-menu-item-dot {
-        float: right;
-        margin-top: #{calc(((getCssCar('topbar', 'height') - 6) / 2) + 1)};
-      }
-
-      @media only screen and (max-width: 1199px) {
+      > .#{$ep-namespace}-menu-item {
         .#{$ep-namespace}-tag {
-          display: none;
+          position: relative !important;
+          margin-top: 0 !important;
+          margin-right: -20px;
+          margin-left: 25px;
+        }
+
+        .#{$namespace}-menu-item__dot {
+          float: right;
+          margin-top: #{calc(((getCssVar('topbar', 'height') - 6px) / 2) + 1)};
+        }
+
+        @media only screen and (max-width: 1199px) {
+          .#{$ep-namespace}-tag {
+            display: none;
+          }
         }
       }
     }
 
     .#{$ep-namespace}-menu {
+      border: 0 !important;
+      * {
+        border: 0 !important;
+      }
+
       &.#{$ep-namespace}-menu--horizontal {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        height: getCssCar('topbar', 'height');
-        border-bottom: 0 solid transparent !important;
-
-        .#{$ep-namespace}-menu-item,
-        .#{$ep-namespace}-submenu__title {
-          height: #{calc(getCssCar('topbar', 'height') / 1.3)};
-          padding: 0 getCssVar('base', 'padding');
-          line-height: #{calc(getCssCar('topbar', 'height') / 1.3)};
-        }
+        width: 100%;
+        height: getCssVar('topbar', 'height');
+        border-bottom: 0 !important;
 
         > .#{$ep-namespace}-menu-item,
-        > .#{$ep-namespace}-submenu {
-          height: getCssCar('topbar', 'height');
-          line-height: getCssCar('topbar', 'height');
+        > .#{$ep-namespace}-sub-menu {
+          height: getCssVar('menu', 'height');
+          margin-right: 3px;
+          line-height: getCssVar('menu', 'height');
+          border-radius: 3px;
 
-          .#{$ep-namespace}-submenu__icon-arrow {
+          .#{$ep-namespace}-sub-menu__icon-arrow {
             float: right;
-            margin-top: #{calc((getCssCar('menu', 'item-height') - 16) / 2)};
+            margin-top: #{calc((getCssVar('menu', 'height') - 26px) / 2)};
           }
 
-          > .#{$ep-namespace}-submenu__title {
+          > .#{$ep-namespace}-sub-menu__title {
             display: flex;
             align-items: flex-start;
-            height: getCssCar('topbar', 'height');
-            line-height: getCssCar('topbar', 'height');
+            height: getCssVar('menu', 'height');
+            line-height: getCssVar('menu', 'height');
+            border: 0 !important;
+            border-radius: 3px;
+          }
+        }
+
+        .#{$ep-namespace}-sub-menu .#{$ep-namespace}-sub-menu__title,
+        .#{$ep-namespace}-menu-item {
+          @include active;
+        }
+
+        .#{$ep-namespace}-sub-menu.is-active {
+          .#{$ep-namespace}-sub-menu__title {
+            color: getCssVar('color', 'white') !important;
+            background-color: getCssVar('color', 'blue') !important;
           }
         }
       }
 
-      [class*='ri-'],
-      [class*='el-icon-'] {
+      [class^='ri-'],
+      .#{$namespace}-icon {
         margin-left: 0;
         color: rgba($color-white, 0.9);
         cursor: pointer;
       }
 
-      .el-submenu,
-      .el-menu-item {
-        i {
+      .#{$ep-namespace}-sub-menu {
+        .#{$namespace}-icon {
+          margin-top: #{calc((getCssVar('menu', 'height') - 16px) / 2)} !important;
+        }
+      }
+
+      .#{$ep-namespace}-sub-menu,
+      .#{$ep-namespace}-menu-item {
+        .#{$namespace}-icon {
           color: inherit;
         }
 
         &.is-active {
-          border-bottom: 0 solid transparent;
+          border: 0 !important;
 
-          .el-submenu__title {
-            border-bottom: 0 solid transparent;
+          .#{$ep-namespace}-sub-menu__title {
+            border: 0 !important;
           }
         }
       }
 
-      .el-menu-item {
+      .#{$ep-namespace}-menu-item {
         &.is-active {
           background: $color-blue !important;
         }
       }
     }
 
-    [class*='ri-'],
-    [class*='el-icon-'] {
+    [class^='ri-'],
+    [class^='#{$ep-namespace}-icon-'] {
       margin-left: getCssVar('base', 'margin');
       color: rgba($color-white, 0.9);
       cursor: pointer;

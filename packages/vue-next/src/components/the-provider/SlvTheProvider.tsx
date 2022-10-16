@@ -1,21 +1,16 @@
 import {
-  DEVICE_BREAKPOINT,
-  provideGlobalConfig,
-  useMobile
-} from '@/composables'
-import { useSettingStore } from '@/store'
-import { EDeviceType } from '@/types'
-import {
   defineComponent,
-  renderSlot,
   watch,
   type ExtractPropTypes,
   type PropType
 } from 'vue'
+import { DEVICE_BREAKPOINT, useMobile } from '@/composables/useMobile'
+import { provideGlobalConfig } from '@/composables/useGlobalConfig'
+import { useNamespace } from '@/composables/useNamespace'
+import { useSettingStore } from '@/store/setting'
+import { EDeviceType } from '@/types'
 
 export const theProviderProps = {
-  title: String,
-  logo: String,
   // layout
   fixedHeader: {
     type: Boolean,
@@ -26,21 +21,6 @@ export const theProviderProps = {
     type: Number,
     default: DEVICE_BREAKPOINT
   }, // 移动端、PC端的分界线
-  // route
-  keepAliveMaxNum: {
-    type: Number,
-    default: 20
-  },
-  isHashRouteMode: {
-    type: Boolean,
-    default: true
-  },
-  // menu
-  defaultOpeneds: {
-    type: Array as PropType<string[]>,
-    default: () => []
-  },
-  uniqueOpened: Boolean,
   // namespace
   namespace: {
     type: String,
@@ -50,6 +30,24 @@ export const theProviderProps = {
     type: String,
     default: 'el'
   },
+  // route
+  keepAliveMaxNum: {
+    type: Number,
+    default: 20
+  },
+  isHashRouteMode: {
+    type: Boolean,
+    default: true
+  },
+  // logo
+  title: String,
+  logo: String,
+  // menu
+  defaultOpeneds: {
+    type: Array as PropType<string[]>,
+    default: () => []
+  },
+  uniqueOpened: Boolean,
   // tabbar
   tabbarStyle: {
     type: String as PropType<'card' | 'smart' | 'smooth'>,
@@ -63,13 +61,12 @@ export const SlvTheProvider = defineComponent({
   name: 'SlvTheProvider',
   props: theProviderProps,
   setup(props, { slots }) {
-    const config = provideGlobalConfig(props)
-
     // store
     const { setFoldSidebar, setDevice } = useSettingStore()
 
     // composables
     const { mobile } = useMobile()
+    const lNs = useNamespace('layout')
 
     // watch
     watch(mobile, (value) => {
@@ -77,8 +74,14 @@ export const SlvTheProvider = defineComponent({
       setDevice(value ? EDeviceType.MOBILE : EDeviceType.DESKTOP)
     })
 
-    return renderSlot(slots, 'default', { config: config?.value })
+    const config = provideGlobalConfig(props)
+    return () => (
+      <div class={[lNs.b(), lNs.is('mobile', mobile.value)]}>
+        {slots.default?.({ config: config?.value })}
+        {slots.tools?.()}
+      </div>
+    )
   }
 })
 
-export type SlvTheProvider = InstanceType<typeof SlvTheProvider>
+export type SlvTheProviderInstance = InstanceType<typeof SlvTheProvider>

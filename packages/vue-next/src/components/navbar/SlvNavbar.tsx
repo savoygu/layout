@@ -1,4 +1,3 @@
-import { storeToRefs } from 'pinia'
 import {
   computed,
   defineComponent,
@@ -7,11 +6,19 @@ import {
   type PropType
 } from 'vue'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import {
+  ElCol,
+  ElRow,
+  ElTabPane,
+  ElTabs,
+  type TabsPaneContext
+} from 'element-plus'
 import { SlvBreadcrumb, SlvFold, SlvIcon } from '@/components'
-import { ELayoutType, type SlvRouteRecord, type SlvTab } from '@/types'
 import { useRouteStore } from '@/store/route'
-import { isExternal } from '@/utils'
 import { useNamespace } from '@/composables'
+import { isExternal } from '@/utils'
+import { ELayoutType, type SlvRouteMeta, type SlvRouteRecord } from '@/types'
 
 export const navbarProps = {
   layout: {
@@ -23,9 +30,8 @@ export type SlvNavbarProps = ExtractPropTypes<typeof navbarProps>
 
 export const SlvNavbar = defineComponent({
   name: 'SlvNavbar',
-  components: { SlvBreadcrumb, SlvFold, SlvIcon },
   props: navbarProps,
-  setup(props) {
+  setup(props, { slots }) {
     // store
     const router = useRouter()
     const store = useRouteStore()
@@ -42,9 +48,9 @@ export const SlvNavbar = defineComponent({
     })
 
     // methods
-    const handleTabClick = (tab: SlvTab) => {
-      if (tab.name === activeTab.value) return
-      store.setActiveTab(tab.name)
+    const handleTabClick = (tab: TabsPaneContext) => {
+      if (tab.props.name === activeTab.value) return
+      store.setActiveTab(tab.props.name as string)
 
       const route = unref(activeRoute) as SlvRouteRecord
       if (isExternal(route.path)) {
@@ -54,50 +60,60 @@ export const SlvNavbar = defineComponent({
         router.push(route.redirect || route)
       }
     }
+    // render
+    const renderTabPaneLabel = (meta: SlvRouteMeta) => {
+      const { title, icon, isCustomSvg } = meta
+      return () => (
+        <span>
+          {icon && (
+            <SlvIcon
+              icon={icon}
+              isCustomSvg={isCustomSvg}
+              style="min-width: 16px"
+            />
+          )}
+          {title}
+        </span>
+      )
+    }
 
     return () => (
       <div class={ns.b()}>
-        <el-row gutter={15}>
-          <el-col lg={12} md={12} sm={12} xl={12} xs={4}>
+        <ElRow gutter={15}>
+          <ElCol lg={12} md={12} sm={12} xl={12} xs={4}>
             <div class={ns.e('left-panel')}>
               {props.layout !== ELayoutType.FLOAT && <SlvFold />}
               {props.layout === ELayoutType.COMPREHENSIVE ? (
-                <el-tabs
-                  value={activeTab.value}
-                  tab-position="top"
+                <ElTabs
+                  v-model={activeTab.value}
+                  tabPosition="top"
                   onTabClick={handleTabClick}
                 >
                   {finalRoutes.value.map((route, index) => {
                     const { meta, name } = route
                     return (
-                      <el-tab-pane key={index + name} name={name}>
-                        {{
-                          label: () => (
-                            <span>
-                              {meta.icon && (
-                                <SlvIcon
-                                  icon={meta.icon}
-                                  is-custom-svg={meta.isCustomSvg}
-                                  style="min-width: 16px"
-                                />
-                              )}
-                              {meta.title}
-                            </span>
-                          )
+                      <ElTabPane
+                        key={index + name}
+                        name={name}
+                        v-slots={{
+                          label: renderTabPaneLabel(meta)
                         }}
-                      </el-tab-pane>
+                      ></ElTabPane>
                     )
                   })}
-                </el-tabs>
+                </ElTabs>
               ) : (
                 <SlvBreadcrumb />
               )}
             </div>
-          </el-col>
-        </el-row>
+          </ElCol>
+          <ElCol lg={12} md={12} sm={12} xl={12} xs={4}>
+            <div class={ns.e('right-panel')}>{slots.navbar?.()}</div>
+          </ElCol>
+        </ElRow>
       </div>
     )
   }
 })
 
-export type SlvNavbar = InstanceType<typeof SlvNavbar>
+export type SlvNavbarInstance = InstanceType<typeof SlvNavbar>

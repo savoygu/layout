@@ -1,1 +1,6 @@
-export { SlvIcon, iconProps, type SlvIconProps } from './SlvIcon'
+export {
+  SlvIcon,
+  iconProps,
+  type SlvIconInstance,
+  type SlvIconProps
+} from './SlvIcon'

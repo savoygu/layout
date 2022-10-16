@@ -6,8 +6,7 @@ export type TabbarState = {
   visitedRoutes: SlvTab[]
 }
 
-export const useTabbarStore = defineStore({
-  id: 'tabbar',
+export const useTabbarStore = defineStore('tabbar', {
   state: (): TabbarState => ({
     visitedRoutes: []
   }),

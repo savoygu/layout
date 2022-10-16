@@ -4,6 +4,26 @@
   position: relative;
   width: 100%;
   height: 100%;
+
+  @include when(mobile) {
+    .#{$namespace}-vertical {
+      .#{$ep-namespace}-scrollbar {
+        &.#{$namespace}-sidebar {
+          @include when(folded) {
+            width: 0;
+          }
+        }
+      }
+
+      .#{$namespace}-layout-main {
+        .is-fixed-header {
+          width: 100%;
+        }
+
+        margin-left: 0;
+      }
+    }
+  }
 }
 
 [class*='#{$namespace}-layout--'] {
@@ -13,7 +33,7 @@
     );
 
     @include when(no-tabbar) {
-      padding-top: getCssVar('tabbar', 'height');
+      padding-top: getCssVar('navbar', 'height');
     }
   }
 }

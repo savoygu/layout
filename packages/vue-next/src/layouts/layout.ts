@@ -9,3 +9,5 @@ export const layoutProps = {
 } as const
 
 export type SlvLayoutProps = ExtractPropTypes<typeof layoutProps>
+
+export type SlvLayoutContext = Partial<SlvLayoutProps>

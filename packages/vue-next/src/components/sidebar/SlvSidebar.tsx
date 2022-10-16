@@ -1,15 +1,18 @@
-import { storeToRefs } from 'pinia'
 import {
   computed,
   defineComponent,
   type ExtractPropTypes,
   type PropType
 } from 'vue'
-import { SlvLogo, SlvTheMenu } from '@/components'
-import { useRouteStore, useSettingStore } from '@/store'
+import { storeToRefs } from 'pinia'
+import { ElMenu, ElScrollbar } from 'element-plus'
+import { SlvTheMenu } from '@/components/the-menu'
+import { SlvLogo } from '@/components/logo'
+import { useRouteStore } from '@/store/route'
+import { useSettingStore } from '@/store/setting'
+import { useGlobalConfig, useNamespace } from '@/composables'
 import variables from '@/styles/menu.module.scss'
 import { ELayoutType } from '@/types'
-import { useGlobalConfig, useNamespace } from '@/composables'
 
 export const sidebarProps = {
   layout: {
@@ -22,7 +25,6 @@ export type SlvSidebarProps = ExtractPropTypes<typeof sidebarProps>
 
 export const SlvSidebar = defineComponent({
   name: 'SlvSidebar',
-  components: { SlvLogo, SlvTheMenu },
   props: sidebarProps,
   setup(props) {
     // store
@@ -54,33 +56,32 @@ export const SlvSidebar = defineComponent({
     })
 
     return () => (
-      <div class={[ns.b(), ns.is('folded', foldSidebar.value)]}>
-        <SlvLogo v-if={showLogo.value} layout={props.layout} />
-        <el-menu
-          active-text-color={variables.menuColorActive}
-          background-color={variables.menuBackgroundColor}
+      <ElScrollbar class={[ns.b(), ns.is('folded', foldSidebar.value)]}>
+        {showLogo.value && <SlvLogo layout={props.layout} />}
+        <ElMenu
+          activeTextColor={variables.menuColorActive}
+          backgroundColor={variables.menuBgColor}
           collapse={foldSidebar.value}
-          collapse-transition={false}
-          default-active={activeMenu}
-          default-openeds={globalConfig.value.defaultOpeneds}
-          menu-trigger="click"
+          collapseTransition={false}
+          defaultActive={activeMenu.value}
+          defaultOpeneds={globalConfig.value.defaultOpeneds}
+          menuTrigger="click"
           mode="vertical"
-          text-color={variables.menuColor}
-          unique-opened={globalConfig.value.uniqueOpened}
+          textColor={variables.menuColor}
+          uniqueOpened={globalConfig.value.uniqueOpened}
         >
           {finalRoutes.value.map((route, index) => {
             return (
-              <SlvTheMenu
-                v-if={route.meta && !route.meta.hidden}
-                key={index + route.name}
-                route={route}
-              />
+              route.meta &&
+              !route.meta.hidden && (
+                <SlvTheMenu key={index + route.name} route={route} />
+              )
             )
           })}
-        </el-menu>
-      </div>
+        </ElMenu>
+      </ElScrollbar>
     )
   }
 })
 
-export type SlvSidebar = InstanceType<typeof SlvSidebar>
+export type SlvSidebarInstance = InstanceType<typeof SlvSidebar>

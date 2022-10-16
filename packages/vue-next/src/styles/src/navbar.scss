@@ -36,18 +36,34 @@
             font-weight: 600;
             color: getCssVar('color', 'gray');
           }
-        }
-      }
 
-      .#{$ep-namespace}-tabs__item {
-        i {
-          margin-right: 3px;
+          .#{$ep-namespace}-tabs__item {
+            i {
+              margin-right: 3px;
+            }
+          }
         }
       }
     }
 
     .#{$ep-namespace}-tabs__nav-wrap::after {
       display: none;
+    }
+  }
+
+  @include e(right-panel) {
+    [class^='ri-'] {
+      margin-left: getCssVar('base', 'margin');
+      color: getCssVar('color', 'gray');
+      cursor: pointer;
+    }
+
+    button {
+      [class^='ri-'] {
+        margin-left: 0;
+        color: getCssVar('color', 'white');
+        cursor: pointer;
+      }
     }
   }
 }

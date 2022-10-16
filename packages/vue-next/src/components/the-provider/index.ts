@@ -1,2 +1,7 @@
-export * from './SlvTheProvider'
-export * from './withSlvTheProvider'
+export {
+  SlvTheProvider,
+  theProviderProps,
+  type SlvTheProviderInstance,
+  type SlvTheProviderProps
+} from './SlvTheProvider'
+export { withSlvTheProvider } from './withSlvTheProvider'

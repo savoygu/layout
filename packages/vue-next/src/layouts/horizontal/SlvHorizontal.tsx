@@ -1,8 +1,10 @@
 import { defineComponent, type ExtractPropTypes } from 'vue'
-import { SlvAppMain, SlvTheHeader, SlvTabbar } from '@/components'
-import { ELayoutType } from '@/types'
+import { SlvAppMain } from '@/components/app-main'
+import { SlvTheHeader } from '@/components/the-header'
+import { SlvTabbar } from '@/components/tabbar'
 import { useNamespace } from '@/composables'
 import { layoutProps } from '../layout'
+import { ELayoutType } from '@/types'
 
 export const horizontalProps = {
   ...layoutProps
@@ -12,11 +14,10 @@ export type SlvHorizontalProps = ExtractPropTypes<typeof horizontalProps>
 
 export const SlvHorizontal = defineComponent({
   name: 'SlvHorizontal',
-  components: { SlvAppMain, SlvTheHeader, SlvTabbar },
   props: horizontalProps,
-  setup(props) {
+  setup(props, { slots }) {
     // composable
-    const ns = useNamespace('float')
+    const ns = useNamespace('horizontal')
     const lNs = useNamespace('layout')
 
     return () => (
@@ -29,7 +30,10 @@ export const SlvHorizontal = defineComponent({
         ]}
       >
         <div class={[lNs.b('top'), lNs.is('fixed-header', props.fixedHeader)]}>
-          <SlvTheHeader layout={ELayoutType.HORIZONTAL} />
+          <SlvTheHeader
+            layout={ELayoutType.HORIZONTAL}
+            v-slots={{ header: () => slots.header?.() }}
+          />
           <div
             v-show={props.showTabbar}
             class={ns.is('horizontal', props.showTabbar)}
@@ -47,4 +51,4 @@ export const SlvHorizontal = defineComponent({
   }
 })
 
-export type SlvHorizontal = InstanceType<typeof SlvHorizontal>
+export type SlvHorizontalInstance = InstanceType<typeof SlvHorizontal>

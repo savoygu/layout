@@ -1,1 +1,1 @@
-export { SlvFold } from './SlvFold'
+export { SlvFold, type SlvFoldInstance } from './SlvFold'
