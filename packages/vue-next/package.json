@@ -1,6 +1,6 @@
 {
   "name": "@savoygu/layout-vue-next",
-  "version": "0.0.10",
+  "version": "0.0.13",
   "exports": {
     ".": {
       "require": "./dist/layout-vue-next.umd.js",

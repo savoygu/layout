@@ -46,13 +46,9 @@ export const provideGlobalConfig = (
   global = false
 ) => {
   const isSetup = !!getCurrentInstance()
-
-  console.log(isSetup, getCurrentInstance())
-
   const oldConfig = isSetup ? useGlobalConfig() : undefined
 
   const provideFn = app?.provide ?? (isSetup ? provide : undefined)
-
   if (!provideFn) {
     console.warn('provideGlobalConfig() must be called in setup')
     return

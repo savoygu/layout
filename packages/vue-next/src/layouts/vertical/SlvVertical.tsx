@@ -41,10 +41,10 @@ export const SlvVertical = defineComponent({
           <div
             class={[lNs.b('top'), lNs.is('fixed-header', props.fixedHeader)]}
           >
-            <SlvNavbar v-slots={{ navbar: () => slots.navbar?.() }}></SlvNavbar>
+            <SlvNavbar v-slots={{ navbar: slots.navbar }}></SlvNavbar>
             {props.showTabbar && <SlvTabbar />}
           </div>
-          <SlvAppMain />
+          <SlvAppMain v-slots={{ footer: slots.footer }} />
         </div>
       </div>
     )

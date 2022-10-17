@@ -44,11 +44,11 @@ export const SlvComprehensive = defineComponent({
             >
               <SlvNavbar
                 layout={ELayoutType.COMPREHENSIVE}
-                v-slots={{ navbar: () => slots.navbar?.() }}
+                v-slots={{ navbar: slots.navbar }}
               />
               {props.showTabbar && <SlvTabbar />}
             </div>
-            <SlvAppMain />
+            <SlvAppMain v-slots={{ footer: slots.footer }} />
           </div>
         </div>
       )

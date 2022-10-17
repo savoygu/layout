@@ -1,1 +1,6 @@
-export { SlvSubmenu, submenuProps, type SlvSubmenuProps } from './SlvSubmenu'
+export {
+  SlvSubmenu,
+  submenuProps,
+  type SlvSubmenuInstance,
+  type SlvSubmenuProps
+} from './SlvSubmenu'

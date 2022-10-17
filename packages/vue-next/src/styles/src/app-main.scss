@@ -1,6 +1,14 @@
 @use 'mixins/mixins' as *;
 
 @include b(app-main) {
-  min-height: getCssVar('app-main', 'height');
-  padding-bottom: 60px;
+  width: 100%;
+  padding: getCssVar('base', 'padding');
+  overflow: hidden;
+  transition: getCssVar('base', 'transition');
+
+  [class$='-container'] {
+    min-height: getCssVar('app-main', 'height');
+    background-color: getCssVar('color', 'white');
+    transition: getCssVar('base', 'transition');
+  }
 }

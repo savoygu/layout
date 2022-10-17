@@ -32,7 +32,7 @@ export const SlvHorizontal = defineComponent({
         <div class={[lNs.b('top'), lNs.is('fixed-header', props.fixedHeader)]}>
           <SlvTheHeader
             layout={ELayoutType.HORIZONTAL}
-            v-slots={{ header: () => slots.header?.() }}
+            v-slots={{ header: slots.header }}
           />
           <div
             v-show={props.showTabbar}
@@ -44,7 +44,7 @@ export const SlvHorizontal = defineComponent({
           </div>
         </div>
         <div class={lNs.b('main')}>
-          <SlvAppMain />
+          <SlvAppMain v-slots={{ footer: slots.footer }} />
         </div>
       </div>
     )

@@ -1,0 +1,16 @@
+@use 'mixins/mixins' as *;
+
+@include b(the-footer) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: getCssVar('footer', 'height');
+  padding: getCssVar('base', 'padding');
+  color: rgba(0, 0, 0, 0.45);
+  background: getCssVar('color', 'white');
+  border-top: 1px dashed getCssVar('base', 'border-color');
+
+  i {
+    margin: 0 5px;
+  }
+}

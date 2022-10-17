@@ -43,4 +43,4 @@ export const SlvSubmenu = defineComponent({
   }
 })
 
-export type SlvSubmenu = InstanceType<typeof SlvSubmenu>
+export type SlvSubmenuInstance = InstanceType<typeof SlvSubmenu>

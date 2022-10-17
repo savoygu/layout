@@ -48,6 +48,14 @@ $layout-header: map.merge(
   $layout-header
 );
 
+$layout-footer: () !default;
+$layout-footer: map.merge(
+  (
+    'height': 55px
+  ),
+  $layout-footer
+);
+
 $layout-topbar: () !default;
 $layout-topbar: map.merge(
   (
@@ -86,8 +94,16 @@ $layout-app-main: () !default;
 $layout-app-main: map.merge(
   (
     'unfolded-width': calc(100% - #{map.get($layout-sidebar, 'folded-width')}),
-    // height: calc(100vh - #{map.get($layout-navbar, 'height')} - #{map.get($layout-tabbar, 'height')} - #{map.get($layout-base, 'padding') * 2} - 60px)
-    'height': calc(100vh - #{map.get($layout-navbar, 'height')} - 20px - 60px)
+    'height':
+      calc(
+        100vh - #{map.get($layout-navbar, 'height')} - #{map.get(
+            $layout-tabbar,
+            'height'
+          )} - #{map.get($layout-base, 'padding') * 2} - #{map.get(
+            $layout-footer,
+            'height'
+          )}
+      )
   ),
   $layout-app-main
 );
