@@ -120,7 +120,7 @@
       [class^='ri-'],
       .#{$namespace}-icon {
         margin-left: 0;
-        color: rgba($color-white, 0.9);
+        color: getCssVar('color', 'white');
         cursor: pointer;
       }
 

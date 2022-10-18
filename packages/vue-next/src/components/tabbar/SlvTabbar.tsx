@@ -45,7 +45,7 @@ export const SlvTabbar = defineComponent({
     const tabbarRef = ref<HTMLDivElement | null>(null)
     const tabActive = ref('')
     const tabMoreActive = ref(false)
-    const contextmenu = reactive<SlvTabbarContextMenu>({
+    const contextMenu = reactive<SlvTabbarContextMenu>({
       position: {
         left: 0,
         top: 0
@@ -60,8 +60,8 @@ export const SlvTabbar = defineComponent({
         [ns.em('list', tabbarStyle.value)]: true
       }
     })
-    const contextmenuStyle = computed(() => {
-      const { left, top } = contextmenu.position
+    const contextMenuStyle = computed(() => {
+      const { left, top } = contextMenu.position
       return {
         left: left + 'px',
         top: top + 'px'
@@ -122,19 +122,19 @@ export const SlvTabbar = defineComponent({
       if (!tabbarEl) return
 
       const rect = tabbarEl.getBoundingClientRect()
-      contextmenu.position.left = Math.round(
+      contextMenu.position.left = Math.round(
         Math.min(event.clientX - rect.left, tabbarEl.offsetWidth)
       )
-      contextmenu.position.top = Math.round(event.clientY - rect.top)
-      contextmenu.route = route
-      contextmenu.visible = true
+      contextMenu.position.top = Math.round(event.clientY - rect.top)
+      contextMenu.route = route
+      contextMenu.visible = true
     }
-    const closeContextmenu = () => {
-      contextmenu.visible = false
-      contextmenu.route = null
+    const closeContextMenu = () => {
+      contextMenu.visible = false
+      contextMenu.route = null
     }
     const handleOthersTabsClose = () => {
-      const currentRoute = contextmenu.route
+      const currentRoute = contextMenu.route
       if (currentRoute) {
         tabbarStore.removeOtherTabs(currentRoute.path)
         if (!isActive(currentRoute.path)) {
@@ -143,10 +143,10 @@ export const SlvTabbar = defineComponent({
       } else {
         tabbarStore.removeOtherTabs(getActiveMenuByRoute(route, true))
       }
-      closeContextmenu()
+      closeContextMenu()
     }
     const handleLeftTabsClose = () => {
-      const currentRoute = contextmenu.route
+      const currentRoute = contextMenu.route
       if (currentRoute) {
         tabbarStore.removeLeftTabs(currentRoute.path)
         if (!isActive(currentRoute.path)) {
@@ -155,10 +155,10 @@ export const SlvTabbar = defineComponent({
       } else {
         tabbarStore.removeLeftTabs(getActiveMenuByRoute(route, true))
       }
-      closeContextmenu()
+      closeContextMenu()
     }
     const handleRightTabsClose = () => {
-      const currentRoute = contextmenu.route
+      const currentRoute = contextMenu.route
       if (currentRoute) {
         tabbarStore.removeRightTabs(currentRoute.path)
         if (!isActive(currentRoute.path)) {
@@ -167,12 +167,12 @@ export const SlvTabbar = defineComponent({
       } else {
         tabbarStore.removeRightTabs(getActiveMenuByRoute(route, true))
       }
-      closeContextmenu()
+      closeContextMenu()
     }
     const handleAllTabsClose = () => {
       tabbarStore.removeAllTabs()
       toLastTab()
-      closeContextmenu()
+      closeContextMenu()
     }
     const handleCommand = (command: string) => {
       switch (command) {
@@ -211,7 +211,7 @@ export const SlvTabbar = defineComponent({
       )
     }
     const renderDropdownMenu = () => (
-      <ElDropdownMenu>
+      <ElDropdownMenu class={ns.e('dropdown-menu')}>
         <ElDropdownItem command="closeOthersTabs">
           <SlvIcon icon="close-line" />
           <span>关闭其他</span>
@@ -237,10 +237,10 @@ export const SlvTabbar = defineComponent({
       />
     )
     const renderContextMenu = () =>
-      contextmenu.visible && (
+      contextMenu.visible && (
         <ul
-          class={[ns.e('contextmenu'), dNs.b()]}
-          style={contextmenuStyle.value}
+          class={[ns.e('context-menu'), dNs.b()]}
+          style={contextMenuStyle.value}
         >
           <li
             class={[
@@ -255,7 +255,7 @@ export const SlvTabbar = defineComponent({
           <li
             class={[
               dNs.e('item'),
-              dNs.is('disabled', isFirstVisitedRoute(contextmenu.route))
+              dNs.is('disabled', isFirstVisitedRoute(contextMenu.route))
             ]}
             onClick={handleLeftTabsClose}
           >
@@ -265,7 +265,7 @@ export const SlvTabbar = defineComponent({
           <li
             class={[
               dNs.e('item'),
-              dNs.is('disabled', isLastVisitedRoute(contextmenu.route))
+              dNs.is('disabled', isLastVisitedRoute(contextMenu.route))
             ]}
             onClick={handleRightTabsClose}
           >
@@ -314,12 +314,11 @@ export const SlvTabbar = defineComponent({
           })}
         </ElTabs>
         <ElDropdown
-          size="small"
           onCommand={handleCommand}
           onVisible-change={handleVisibleChange}
           v-slots={{
-            dropdown: renderDropdownMenu,
-            default: renderDropdownDefault
+            default: renderDropdownDefault,
+            dropdown: renderDropdownMenu
           }}
         ></ElDropdown>
         {renderContextMenu()}

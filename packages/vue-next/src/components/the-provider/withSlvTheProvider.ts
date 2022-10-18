@@ -1,4 +1,4 @@
-import { computed, defineComponent, h } from 'vue'
+import { computed, defineComponent, h, type Slots } from 'vue'
 import { useSettingStore } from '@/store/setting'
 import type { SlvTheProviderContext } from '@/composables/useGlobalConfig'
 import { SlvTheProvider } from './SlvTheProvider'
@@ -25,21 +25,25 @@ export type SlvLayout =
   | SlvLayoutComponent
   | SlvLayoutResponsive<SlvLayoutComponent>
 
+export type SlvContext = {
+  config?: SlvTheProviderContext
+  props?: SlvLayoutContext
+  slots?: Slots
+}
+
 export const withSlvTheProvider = (
   Layout: SlvLayout,
-  config?: SlvTheProviderContext,
-  props?: SlvLayoutContext
+  context: SlvContext = {}
 ) => {
   return defineComponent(() => {
     // store
     const settingsStore = useSettingStore()
 
+    // computed
     const device = computed(() => {
       return settingsStore.device
     })
-
-    // methods
-    const LayoutComponent = () => {
+    const LayoutComponent = computed(() => {
       if (
         typeof Layout === 'object' &&
         'mobile' in Layout &&
@@ -48,16 +52,15 @@ export const withSlvTheProvider = (
         return Layout[device.value]
       }
       return Layout
-    }
+    })
 
     return () => {
-      return h(SlvTheProvider, config, [
-        h(LayoutComponent(), {
-          ...props,
-          fixedHeader: props?.fixedHeader ?? config?.fixedHeader,
-          showTabbar: props?.showTabbar ?? config?.showTabbar
-        })
-      ])
+      const { config, props, slots } = context
+
+      return h(SlvTheProvider, config, {
+        default: () => h(LayoutComponent.value, props, slots),
+        tools: () => (typeof slots?.tools === 'function' ? slots.tools() : null)
+      })
     }
   })
 }

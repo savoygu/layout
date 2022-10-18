@@ -62,7 +62,7 @@
 
             &.is-active {
               color: getCssVar('color', 'primary');
-              background: mix($color-white, $color-primary, 90%);
+              background: getCssVar('color', 'primary-light-9');
               border: 1px solid getCssVar('color', 'primary');
               outline: none;
             }
@@ -101,7 +101,7 @@
             transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
 
             &.is-active {
-              background: mix($color-white, $color-primary, 90%);
+              background: getCssVar('color', 'primary-light-9');
               outline: none;
 
               &:after {
@@ -122,7 +122,7 @@
             }
 
             &:hover {
-              background: mix($color-white, $color-primary, 90%);
+              background: getCssVar('color', 'primary-light-9');
 
               &:after {
                 width: 100%;
@@ -176,7 +176,7 @@
             &.is-active {
               padding: 0 30px;
               color: getCssVar('color', 'primary');
-              background: mix($color-white, $color-primary, 90%);
+              background: getCssVar('color', 'primary-light-9');
               outline: none;
               mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANoAAAAkCAYAAADvhSSyAAAACXBIWXMAAAsTAAALEwEAmpwYAAABbUlEQVR4nO3d4U3CUBSG4beJA9QNcAJhAtnAOoGOwCaOoBvoCDgBOIHdQDbAH7cJMaHtxcJB6/skJ6Thptw/H+cSktOCn5kCc+AWKJtraaxqYA28A8/N9cktgE9ga1n/tBYcqDhw/QtQHfoh0gitgdkpbrzg/N8klvWbKruz5Xa0CbAi/R6TtDMjdbdOF5k3qzBk0j4VRwzazbC9SKN1nbMo9+j4QTo+SvpuA1z2LcoN2nbYXqRR681R7tFR0gAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNGq4kjTRolRM0x31L3Sb0TMLKCZqTiaVu9/QErW+oyAQHp0p9NqRBqnXbgq6glcATdjQpRw1ctb3ZFrQSeAQejr8fabRegbvcxXPScfHcDxCwrL9YK/Y0qILdgwSnpNHfHhWl4ZbAW/O6LEgplHRC/mEtBfgClkhxraFbr7gAAAAASUVORK5CYII=);
               mask-size: 100% 100%;
@@ -184,7 +184,7 @@
               &:hover {
                 padding: 0 30px;
                 color: getCssVar('color', 'primary');
-                background: mix($color-white, $color-primary, 90%);
+                background: getCssVar('color', 'primary-light-9');
                 mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANoAAAAkCAYAAADvhSSyAAAACXBIWXMAAAsTAAALEwEAmpwYAAABbUlEQVR4nO3d4U3CUBSG4beJA9QNcAJhAtnAOoGOwCaOoBvoCDgBOIHdQDbAH7cJMaHtxcJB6/skJ6Thptw/H+cSktOCn5kCc+AWKJtraaxqYA28A8/N9cktgE9ga1n/tBYcqDhw/QtQHfoh0gitgdkpbrzg/N8klvWbKruz5Xa0CbAi/R6TtDMjdbdOF5k3qzBk0j4VRwzazbC9SKN1nbMo9+j4QTo+SvpuA1z2LcoN2nbYXqRR681R7tFR0gAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNGq4kjTRolRM0x31L3Sb0TMLKCZqTiaVu9/QErW+oyAQHp0p9NqRBqnXbgq6glcATdjQpRw1ctb3ZFrQSeAQejr8fabRegbvcxXPScfHcDxCwrL9YK/Y0qILdgwSnpNHfHhWl4ZbAW/O6LEgplHRC/mEtBfgClkhxraFbr7gAAAAASUVORK5CYII=);
                 mask-size: 100% 100%;
               }
@@ -211,16 +211,18 @@
     display: inline-block;
   }
 
-  @include e(contextmenu) {
+  @include e(context-menu) {
     position: absolute;
     top: 0;
     left: 0;
     z-index: 10;
+  }
 
+  @include e((context-menu, dropdown-menu)) {
     .#{$ep-namespace}-dropdown-menu__item {
       &:hover {
         color: getCssVar('color', 'primary');
-        background: mix($color-white, $color-primary, 90%);
+        background: getCssVar('color', 'primary-light-9');
       }
     }
   }
