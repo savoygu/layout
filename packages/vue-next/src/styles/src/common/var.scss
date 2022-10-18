@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use 'sass:color';
 
 $layout-base: () !default;
 $layout-base: map.merge(
@@ -16,20 +17,30 @@ $layout-base: map.merge(
   $layout-base
 );
 
+$color-white: #fff !default;
+$color-primary: #1890ff !default;
+$color-gray: rgba(0, 0, 0, 0.65) !default;
+$color-black: #515a6e !default;
+
 $layout-color: () !default;
 $layout-color: map.merge(
   (
-    'white': #fff,
-    'blue': #1890ff,
-    'gray': rgba(0, 0, 0, 0.65),
-    'black': #515a6e
+    'white': $color-white,
+    'primary': $color-primary,
+    'primary-light-1': color.mix($color-white, $color-primary, 10%),
+    'primary-light-2': color.mix($color-white, $color-primary, 20%),
+    'primary-light-3': color.mix($color-white, $color-primary, 30%),
+    'primary-light-4': color.mix($color-white, $color-primary, 40%),
+    'primary-light-5': color.mix($color-white, $color-primary, 50%),
+    'primary-light-6': color.mix($color-white, $color-primary, 60%),
+    'primary-light-7': color.mix($color-white, $color-primary, 70%),
+    'primary-light-8': color.mix($color-white, $color-primary, 80%),
+    'primary-light-9': color.mix($color-white, $color-primary, 90%),
+    'gray': $color-gray,
+    'black': $color-black
   ),
   $layout-color
 );
-$color-white: map.get($layout-color, 'white') !default;
-$color-blue: map.get($layout-color, 'blue') !default;
-$color-gray: map.get($layout-color, 'gray') !default;
-$color-black: map.get($layout-color, 'black') !default;
 
 $layout-logo: () !default;
 $layout-logo: map.merge(
@@ -108,15 +119,18 @@ $layout-app-main: map.merge(
   $layout-app-main
 );
 
+$light-menu-bg-color: #fff !default;
+$dark-menu-bg-color: #282c34 !default;
+
 $layout-menu: () !default;
 $layout-menu: map.merge(
   (
     'height': 40px,
     'item-height': 50px,
-    'color': hsla(0, 0%, 100%, 0.95),
-    'color-active': hsla(0, 0%, 100%, 0.95),
-    'bg-color': #282c34,
-    'bg-color-active': #1890ff
+    'color': rgba(255, 255, 255, 0.95),
+    'color-active': rgba(255, 255, 255, 0.95),
+    'bg-color': $dark-menu-bg-color,
+    'bg-color-active': $color-primary
   ),
   $layout-menu
 );

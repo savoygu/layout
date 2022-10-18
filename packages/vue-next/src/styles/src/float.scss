@@ -34,7 +34,7 @@
             }
 
             > .#{$ep-namespace}-sub-menu__title {
-              background-color: getCssVar('color', 'blue') !important;
+              background-color: getCssVar('color', 'primary') !important;
             }
           }
         }

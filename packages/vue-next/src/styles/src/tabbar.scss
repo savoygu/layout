@@ -33,41 +33,43 @@
     @include m(card) {
       height: getCssVar('tabbar', 'tab-height');
 
-      .#{$ep-namespace}-tabs__nav-next,
-      .#{$ep-namespace}-tabs__nav-prev {
-        height: getCssVar('tabbar', 'tab-height');
-        line-height: getCssVar('tabbar', 'tab-height');
-      }
-
-      .#{$ep-namespace}-tabs__header {
-        border-bottom: 0;
-
-        .#{$ep-namespace}-tabs__nav {
-          border: 0;
+      &.#{$ep-namespace}-tabs {
+        .#{$ep-namespace}-tabs__nav-next,
+        .#{$ep-namespace}-tabs__nav-prev {
+          height: getCssVar('tabbar', 'tab-height');
+          line-height: getCssVar('tabbar', 'tab-height');
         }
 
-        .#{$ep-namespace}-tabs__item {
-          box-sizing: border-box;
-          height: getCssVar('tabbar', 'tab-height');
-          margin-right: 5px;
-          line-height: getCssVar('tabbar', 'tab-height');
-          border: 1px solid getCssVar('base', 'border-color');
-          border-radius: getCssVar('base', 'border-radius');
-          transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+        .#{$ep-namespace}-tabs__header {
+          border-bottom: 0;
 
-          &:first-child {
-            border-left: 1px solid getCssVar('base', 'border-color');
+          .#{$ep-namespace}-tabs__nav {
+            border: 0;
           }
 
-          &.is-active {
-            color: getCssVar('color', 'blue');
-            background: mix($color-white, $color-blue, 90%);
-            border: 1px solid getCssVar('color', 'blue');
-            outline: none;
-          }
+          .#{$ep-namespace}-tabs__item {
+            box-sizing: border-box;
+            height: getCssVar('tabbar', 'tab-height');
+            margin-right: 5px;
+            line-height: getCssVar('tabbar', 'tab-height');
+            border: 1px solid getCssVar('base', 'border-color');
+            border-radius: getCssVar('base', 'border-radius');
+            transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
 
-          &:hover {
-            border: 1px solid getCssVar('color', 'blue');
+            &:first-child {
+              border-left: 1px solid getCssVar('base', 'border-color');
+            }
+
+            &.is-active {
+              color: getCssVar('color', 'primary');
+              background: mix($color-white, $color-primary, 90%);
+              border: 1px solid getCssVar('color', 'primary');
+              outline: none;
+            }
+
+            &:hover {
+              border: 1px solid getCssVar('color', 'primary');
+            }
           }
         }
       }
@@ -76,54 +78,56 @@
     @include m(smart) {
       height: getCssVar('tabbar', 'tab-height');
 
-      .#{$ep-namespace}-tabs__nav-next,
-      .#{$ep-namespace}-tabs__nav-prev {
-        height: getCssVar('tabbar', 'tab-height');
-        line-height: getCssVar('tabbar', 'tab-height');
-      }
-
-      .#{$ep-namespace}-tabs__header {
-        border-bottom: 0;
-
-        .#{$ep-namespace}-tabs__nav {
-          border: 0;
+      &.#{$ep-namespace}-tabs {
+        .#{$ep-namespace}-tabs__nav-next,
+        .#{$ep-namespace}-tabs__nav-prev {
+          height: getCssVar('tabbar', 'tab-height');
+          line-height: getCssVar('tabbar', 'tab-height');
         }
 
-        .#{$ep-namespace}-tabs__item {
-          height: getCssVar('tabbar', 'tab-height');
-          margin-right: 5px;
-          line-height: getCssVar('tabbar', 'tab-height');
-          border: 0;
-          outline: none;
-          transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+        .#{$ep-namespace}-tabs__header {
+          border-bottom: 0;
 
-          &.is-active {
-            background: mix($color-white, $color-blue, 90%);
+          .#{$ep-namespace}-tabs__nav {
+            border: 0;
+          }
+
+          .#{$ep-namespace}-tabs__item {
+            height: getCssVar('tabbar', 'tab-height');
+            margin-right: 5px;
+            line-height: getCssVar('tabbar', 'tab-height');
+            border: 0;
             outline: none;
+            transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+
+            &.is-active {
+              background: mix($color-white, $color-primary, 90%);
+              outline: none;
+
+              &:after {
+                width: 100%;
+                transition: getCssVar('base', 'transition');
+              }
+            }
 
             &:after {
-              width: 100%;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 0;
+              height: 2px;
+              content: '';
+              background-color: getCssVar('color', 'primary');
               transition: getCssVar('base', 'transition');
             }
-          }
 
-          &:after {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            content: '';
-            background-color: getCssVar('color', 'blue');
-            transition: getCssVar('base', 'transition');
-          }
+            &:hover {
+              background: mix($color-white, $color-primary, 90%);
 
-          &:hover {
-            background: mix($color-white, $color-blue, 90%);
-
-            &:after {
-              width: 100%;
-              transition: getCssVar('base', 'transition');
+              &:after {
+                width: 100%;
+                transition: getCssVar('base', 'transition');
+              }
             }
           }
         }
@@ -133,68 +137,70 @@
     @include m(smooth) {
       height: calc(getCssVar('tabbar', 'tab-height') + 4px);
 
-      .#{$ep-namespace}-tabs__nav-next,
-      .#{$ep-namespace}-tabs__nav-prev {
-        height: calc(getCssVar('tabbar', 'tab-height') + 14px);
-        line-height: calc(getCssVar('tabbar', 'tab-height') + 14px);
-      }
-
-      .#{$ep-namespace}-tabs__header {
-        border-bottom: 0;
-
-        .#{$ep-namespace}-tabs__nav {
-          border: 0;
+      &.#{$ep-namespace}-tabs {
+        .#{$ep-namespace}-tabs__nav-next,
+        .#{$ep-namespace}-tabs__nav-prev {
+          height: calc(getCssVar('tabbar', 'tab-height') + 14px);
+          line-height: calc(getCssVar('tabbar', 'tab-height') + 14px);
         }
 
-        .#{$ep-namespace}-tabs__item {
-          height: calc(getCssVar('tabbar', 'tab-height') + 4px);
-          padding: 0 30px;
-          margin-top: #{calc(
-              (
-                  getCssVar('tabbar', 'height') -
-                    getCssVar('tabbar', 'tab-height') - 4.1px
-                ) / 2
-            )};
-          margin-right: -18px;
-          line-height: calc(getCssVar('tabbar', 'tab-height') + 4px);
-          text-align: center;
-          border: 0;
-          outline: none;
-          transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+        .#{$ep-namespace}-tabs__header {
+          border-bottom: 0;
 
-          &.is-closable {
-            &:hover {
-              padding: 0 30px;
-            }
+          .#{$ep-namespace}-tabs__nav {
+            border: 0;
           }
 
-          &.is-active {
+          .#{$ep-namespace}-tabs__item {
+            height: calc(getCssVar('tabbar', 'tab-height') + 4px);
             padding: 0 30px;
-            color: getCssVar('color', 'blue');
-            background: mix($color-white, $color-blue, 90%);
+            margin-top: #{calc(
+                (
+                    getCssVar('tabbar', 'height') -
+                      getCssVar('tabbar', 'tab-height') - 4.1px
+                  ) / 2
+              )};
+            margin-right: -18px;
+            line-height: calc(getCssVar('tabbar', 'tab-height') + 4px);
+            text-align: center;
+            border: 0;
             outline: none;
-            mask: url('../../assets/images/tab.png');
-            mask-size: 100% 100%;
-
-            &:hover {
-              padding: 0 30px;
-              color: getCssVar('color', 'blue');
-              background: mix($color-white, $color-blue, 90%);
-              mask: url('../../assets/images/tab.png');
-              mask-size: 100% 100%;
-            }
+            transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
 
             &.is-closable {
-              padding: 0 30px;
+              &:hover {
+                padding: 0 30px;
+              }
             }
-          }
 
-          &:hover {
-            padding: 0 30px;
-            color: getCssVar('color', 'black');
-            background: #dee1e6;
-            mask: url('../../assets/images/tab.png');
-            mask-size: 100% 100%;
+            &.is-active {
+              padding: 0 30px;
+              color: getCssVar('color', 'primary');
+              background: mix($color-white, $color-primary, 90%);
+              outline: none;
+              mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANoAAAAkCAYAAADvhSSyAAAACXBIWXMAAAsTAAALEwEAmpwYAAABbUlEQVR4nO3d4U3CUBSG4beJA9QNcAJhAtnAOoGOwCaOoBvoCDgBOIHdQDbAH7cJMaHtxcJB6/skJ6Thptw/H+cSktOCn5kCc+AWKJtraaxqYA28A8/N9cktgE9ga1n/tBYcqDhw/QtQHfoh0gitgdkpbrzg/N8klvWbKruz5Xa0CbAi/R6TtDMjdbdOF5k3qzBk0j4VRwzazbC9SKN1nbMo9+j4QTo+SvpuA1z2LcoN2nbYXqRR681R7tFR0gAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNGq4kjTRolRM0x31L3Sb0TMLKCZqTiaVu9/QErW+oyAQHp0p9NqRBqnXbgq6glcATdjQpRw1ctb3ZFrQSeAQejr8fabRegbvcxXPScfHcDxCwrL9YK/Y0qILdgwSnpNHfHhWl4ZbAW/O6LEgplHRC/mEtBfgClkhxraFbr7gAAAAASUVORK5CYII=);
+              mask-size: 100% 100%;
+
+              &:hover {
+                padding: 0 30px;
+                color: getCssVar('color', 'primary');
+                background: mix($color-white, $color-primary, 90%);
+                mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANoAAAAkCAYAAADvhSSyAAAACXBIWXMAAAsTAAALEwEAmpwYAAABbUlEQVR4nO3d4U3CUBSG4beJA9QNcAJhAtnAOoGOwCaOoBvoCDgBOIHdQDbAH7cJMaHtxcJB6/skJ6Thptw/H+cSktOCn5kCc+AWKJtraaxqYA28A8/N9cktgE9ga1n/tBYcqDhw/QtQHfoh0gitgdkpbrzg/N8klvWbKruz5Xa0CbAi/R6TtDMjdbdOF5k3qzBk0j4VRwzazbC9SKN1nbMo9+j4QTo+SvpuA1z2LcoN2nbYXqRR681R7tFR0gAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNGq4kjTRolRM0x31L3Sb0TMLKCZqTiaVu9/QErW+oyAQHp0p9NqRBqnXbgq6glcATdjQpRw1ctb3ZFrQSeAQejr8fabRegbvcxXPScfHcDxCwrL9YK/Y0qILdgwSnpNHfHhWl4ZbAW/O6LEgplHRC/mEtBfgClkhxraFbr7gAAAAASUVORK5CYII=);
+                mask-size: 100% 100%;
+              }
+
+              &.is-closable {
+                padding: 0 30px;
+              }
+            }
+
+            &:hover {
+              padding: 0 30px;
+              color: getCssVar('color', 'black');
+              background: #dee1e6;
+              mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANoAAAAkCAYAAADvhSSyAAAACXBIWXMAAAsTAAALEwEAmpwYAAABbUlEQVR4nO3d4U3CUBSG4beJA9QNcAJhAtnAOoGOwCaOoBvoCDgBOIHdQDbAH7cJMaHtxcJB6/skJ6Thptw/H+cSktOCn5kCc+AWKJtraaxqYA28A8/N9cktgE9ga1n/tBYcqDhw/QtQHfoh0gitgdkpbrzg/N8klvWbKruz5Xa0CbAi/R6TtDMjdbdOF5k3qzBk0j4VRwzazbC9SKN1nbMo9+j4QTo+SvpuA1z2LcoN2nbYXqRR681R7tFR0gAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNCmDQpAAGTQpg0KQABk0KYNCkAAZNGq4kjTRolRM0x31L3Sb0TMLKCZqTiaVu9/QErW+oyAQHp0p9NqRBqnXbgq6glcATdjQpRw1ctb3ZFrQSeAQejr8fabRegbvcxXPScfHcDxCwrL9YK/Y0qILdgwSnpNHfHhWl4ZbAW/O6LEgplHRC/mEtBfgClkhxraFbr7gAAAAASUVORK5CYII=);
+              mask-size: 100% 100%;
+            }
           }
         }
       }
@@ -213,8 +219,8 @@
 
     .#{$ep-namespace}-dropdown-menu__item {
       &:hover {
-        color: getCssVar('color', 'blue');
-        background: mix($color-white, $color-blue, 90%);
+        color: getCssVar('color', 'primary');
+        background: mix($color-white, $color-primary, 90%);
       }
     }
   }
@@ -226,7 +232,7 @@
     transition: transform 0.3s ease-out;
 
     @include when(active) {
-      color: getCssVar('color', 'blue');
+      color: getCssVar('color', 'primary');
       transform: rotate(90deg);
     }
   }

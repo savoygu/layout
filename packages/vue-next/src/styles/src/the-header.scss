@@ -5,7 +5,7 @@
   &:hover,
   &.is-active {
     color: getCssVar('color', 'white') !important;
-    background-color: getCssVar('color', 'blue') !important;
+    background-color: getCssVar('color', 'primary') !important;
   }
 }
 
@@ -112,7 +112,7 @@
         .#{$ep-namespace}-sub-menu.is-active {
           .#{$ep-namespace}-sub-menu__title {
             color: getCssVar('color', 'white') !important;
-            background-color: getCssVar('color', 'blue') !important;
+            background-color: getCssVar('color', 'primary') !important;
           }
         }
       }
@@ -132,6 +132,7 @@
 
       .#{$ep-namespace}-sub-menu,
       .#{$ep-namespace}-menu-item {
+        i,
         .#{$namespace}-icon {
           color: inherit;
         }
@@ -147,7 +148,7 @@
 
       .#{$ep-namespace}-menu-item {
         &.is-active {
-          background: $color-blue !important;
+          background: $color-primary !important;
         }
       }
     }
@@ -155,16 +156,16 @@
     [class^='ri-'],
     [class^='#{$ep-namespace}-icon-'] {
       margin-left: getCssVar('base', 'margin');
-      color: rgba($color-white, 0.9);
+      color: getCssVar('color', 'white');
       cursor: pointer;
     }
 
     button {
       svg {
         margin-right: 0;
-        color: rgba($color-white, 0.9);
+        color: getCssVar('color', 'white');
         cursor: pointer;
-        fill: rgba($color-white, 0.9);
+        fill: getCssVar('color', 'white');
       }
     }
   }

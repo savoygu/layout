@@ -1,6 +1,6 @@
 @use 'sass:map';
 
-@use 'src/common/var' as *;
+@use '../src/common/var' as *;
 
 :export {
   menuColor: map.get($layout-menu, 'color');

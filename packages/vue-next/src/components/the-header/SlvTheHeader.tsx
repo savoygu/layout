@@ -5,7 +5,7 @@ import { SlvLogo } from '@/components/logo'
 import { SlvTheMenu } from '@/components/the-menu'
 import { useRouteStore } from '@/store/route'
 import { useNamespace } from '@/composables'
-import variables from '@/styles/menu.module.scss'
+import variables from '@/styles/modules/menu.module.scss'
 import { ELayoutType } from '@/types'
 
 export const theHeaderProps = {

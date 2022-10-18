@@ -83,7 +83,7 @@
     }
 
     color: getCssVar('color', 'white');
-    background: getCssVar('color', 'blue');
+    background: getCssVar('color', 'primary');
 
     .#{$ep-namespace}-sub-menu__title {
       i {
@@ -91,7 +91,7 @@
       }
 
       color: getCssVar('color', 'white');
-      background: getCssVar('color', 'blue');
+      background: getCssVar('color', 'primary');
     }
   }
 }

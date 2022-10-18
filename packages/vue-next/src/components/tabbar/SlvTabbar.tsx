@@ -239,7 +239,7 @@ export const SlvTabbar = defineComponent({
     const renderContextMenu = () =>
       contextmenu.visible && (
         <ul
-          class={[ns.e('contextmenu'), dNs.b(), dNs.m('small')]}
+          class={[ns.e('contextmenu'), dNs.b()]}
           style={contextmenuStyle.value}
         >
           <li

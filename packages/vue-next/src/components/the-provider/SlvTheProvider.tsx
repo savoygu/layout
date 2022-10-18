@@ -52,6 +52,10 @@ export const theProviderProps = {
   tabbarStyle: {
     type: String as PropType<'card' | 'smart' | 'smooth'>,
     default: 'smooth'
+  },
+  theme: {
+    type: String as PropType<'dark' | 'light'>,
+    default: 'dark'
   }
 } as const
 
@@ -61,8 +65,10 @@ export const SlvTheProvider = defineComponent({
   name: 'SlvTheProvider',
   props: theProviderProps,
   setup(props, { slots }) {
+    const config = provideGlobalConfig(props)
+
     // store
-    const { setFoldSidebar, setDevice } = useSettingStore()
+    const { setFoldSidebar, setDevice, setTheme } = useSettingStore()
 
     // composables
     const { mobile } = useMobile()
@@ -73,8 +79,14 @@ export const SlvTheProvider = defineComponent({
       setFoldSidebar(value)
       setDevice(value ? EDeviceType.MOBILE : EDeviceType.DESKTOP)
     })
+    watch(
+      () => props.theme,
+      (value) => {
+        setTheme(value)
+      },
+      { immediate: true }
+    )
 
-    const config = provideGlobalConfig(props)
     return () => (
       <div class={[lNs.b(), lNs.is('mobile', mobile.value)]}>
         {slots.default?.({ config: config?.value })}

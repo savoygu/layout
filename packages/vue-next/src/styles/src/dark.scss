@@ -1,0 +1,229 @@
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
+
+@mixin container {
+  color: getCssVar('color', 'white') !important;
+  background: $dark-menu-bg-color !important;
+}
+
+@mixin active {
+  &:hover,
+  &.is-active {
+    color: getCssVar('color', 'white') !important;
+    background-color: getCssVar('color', 'primary') !important;
+  }
+}
+
+@mixin menu {
+  color: getCssVar('color', 'white') !important;
+}
+
+@mixin menuActive {
+  &:hover,
+  &.is-active {
+    i {
+      color: getCssVar('color', 'white') !important;
+    }
+
+    color: getCssVar('color', 'white') !important;
+    background-color: getCssVar('color', 'primary') !important;
+
+    .#{$ep-namespace}-sub-menu__title {
+      i {
+        color: getCssVar('color', 'white') !important;
+      }
+
+      color: getCssVar('color', 'white') !important;
+      background-color: getCssVar('color', 'primary') !important;
+    }
+  }
+}
+
+.#{$namespace}-theme-dark {
+  .#{$namespace}-logo {
+    @include container;
+  }
+
+  .#{$namespace}-layout {
+    &--float,
+    &--vertical,
+    &--horizontal,
+    &--comprehensive {
+      .#{$ep-namespace}-menu {
+        @include container;
+
+        .#{$ep-namespace}-sub-menu .#{$ep-namespace}-sub-menu__title,
+        .#{$ep-namespace}-menu-item {
+          @include container;
+        }
+      }
+
+      .#{$namespace}-sidebar {
+        @include container;
+
+        .#{$ep-namespace}-menu-item {
+          @include active;
+        }
+      }
+    }
+
+    &--float {
+      .#{$ep-namespace}-scrollbar__view
+        .#{$ep-namespace}-menu--collapse.#{$ep-namespace}-menu
+        li.#{$ep-namespace}-sub-menu.is-active {
+        .#{$ep-namespace}-sub-menu__title {
+          background-color: transparent !important;
+        }
+
+        > .#{$ep-namespace}-sub-menu__title {
+          background-color: getCssVar('color', 'primary') !important;
+        }
+      }
+    }
+  }
+
+  .#{$namespace}-the-header {
+    @include container;
+
+    .#{$namespace}-layout-main {
+      @include container;
+    }
+
+    &__right-panel {
+      .#{$ep-namespace}-menu--horizontal.#{$ep-namespace}-menu {
+        .#{$ep-namespace}-sub-menu .#{$ep-namespace}-sub-menu__title,
+        .#{$ep-namespace}-menu-item {
+          @include active;
+        }
+
+        .#{$ep-namespace}-sub-menu.is-active {
+          .#{$ep-namespace}-sub-menu__title {
+            color: getCssVar('color', 'white') !important;
+            background-color: getCssVar('color', 'primary') !important;
+          }
+        }
+      }
+    }
+  }
+
+  .#{$namespace}-tabbar {
+    &__list {
+      &--card {
+        .#{$ep-namespace}-tabs__header {
+          .#{$ep-namespace}-tabs__item {
+            &.is-active {
+              color: getCssVar('color', 'primary') !important;
+              background-color: getCssVar(
+                'color',
+                'primary-light-9'
+              ) !important;
+              border: 1px solid getCssVar('color', 'primary') !important;
+            }
+
+            &:hover {
+              border: 1px solid getCssVar('color', 'primary') !important;
+            }
+          }
+        }
+      }
+      &--smart {
+        .#{$ep-namespace}-tabs__header {
+          .#{$ep-namespace}-tabs__item {
+            &.is-active {
+              background-color: getCssVar(
+                'color',
+                'primary-light-9'
+              ) !important;
+            }
+
+            &:after {
+              background-color: getCssVar('color', 'primary') !important;
+            }
+
+            &:hover {
+              background-color: getCssVar(
+                'color',
+                'primary-light-9'
+              ) !important;
+            }
+          }
+        }
+      }
+      &--smooth {
+        .#{$ep-namespace}-tabs__header {
+          .#{$ep-namespace}-tabs__item {
+            &.is-active {
+              color: getCssVar('color', 'primary') !important;
+              background-color: getCssVar(
+                'color',
+                'primary-light-9'
+              ) !important;
+
+              &:hover {
+                color: getCssVar('color', 'primary') !important;
+                background-color: getCssVar(
+                  'color',
+                  'primary-light-9'
+                ) !important;
+              }
+            }
+
+            &:hover {
+              color: getCssVar('color', 'black') !important;
+            }
+          }
+        }
+      }
+    }
+
+    &__more {
+      &.is-active,
+      &:hover {
+        color: getCssVar('color', 'primary') !important;
+      }
+    }
+  }
+
+  .#{$namespace}-navbar {
+    .#{$ep-namespace}-tabs__item.is-active,
+    .#{$ep-namespace}-tabs__item:hover {
+      color: getCssVar('color', 'primary') !important;
+    }
+
+    .#{$ep-namespace}-tabs__active-bar {
+      background-color: getCssVar('color', 'primary') !important;
+    }
+  }
+
+  .#{$ep-namespace}-menu {
+    border-right: 0 !important;
+  }
+
+  .#{$ep-namespace}-menu--collapse.#{$ep-namespace}-menu
+    li.#{$ep-namespace}-sub-menu.is-active
+    > .#{$ep-namespace}-sub-menu__title {
+    background-color: getCssVar('color', 'primary') !important;
+  }
+
+  .#{$ep-namespace}-popper {
+    .#{$ep-namespace}-menu--horizontal,
+    .#{$ep-namespace}-menu--vertical {
+      @include menu;
+
+      .#{$ep-namespace}-menu.#{$ep-namespace}-menu--popup {
+        @include menu;
+      }
+
+      .#{$ep-namespace}-menu-item,
+      .#{$ep-namespace}-sub-menu {
+        @include menu;
+        @include menuActive;
+
+        .#{$ep-namespace}-sub-menu__title {
+          @include menu;
+          @include menuActive;
+        }
+      }
+    }
+  }
+}

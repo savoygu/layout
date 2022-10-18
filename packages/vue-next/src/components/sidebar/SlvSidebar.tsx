@@ -11,7 +11,7 @@ import { SlvLogo } from '@/components/logo'
 import { useRouteStore } from '@/store/route'
 import { useSettingStore } from '@/store/setting'
 import { useGlobalConfig, useNamespace } from '@/composables'
-import variables from '@/styles/menu.module.scss'
+import variables from '@/styles/modules/menu.module.scss'
 import { ELayoutType } from '@/types'
 
 export const sidebarProps = {
